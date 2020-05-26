@@ -6,8 +6,7 @@ export default {
   ** Headers of the page
   */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -44,7 +43,11 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    ['nuxt-vuex-localstorage', {
+      mode: 'debug',
+      localStorage: ['localStorage', 'foo']
+    }]
   ],
   /*
   ** Axios module configuration
@@ -80,7 +83,10 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    transpile: [
+      'nuxt-vuex-localstorage'
+    ],
+    extend(config, ctx) {
     }
   }
 }

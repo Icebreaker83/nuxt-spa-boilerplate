@@ -1,0 +1,13 @@
+{
+  "app-bar": {
+    "settings": {
+      "profile": "Profile",
+      "theme": {
+        "label": "Theme",
+        "dark": "Dark",
+        "light": "Light"
+      },
+      "logout": "Log Out"
+    }
+  }
+}

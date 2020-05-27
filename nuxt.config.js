@@ -28,8 +28,7 @@ export default {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [
-  ],
+  plugins: [],
   /*
   ** Nuxt.js dev-modules
   */
@@ -46,8 +45,22 @@ export default {
     '@nuxtjs/axios',
     ['nuxt-vuex-localstorage', {
       mode: 'debug',
-      localStorage: ['localStorage', 'foo']
-    }]
+      localStorage: ['language-store']
+    }],
+    [
+      'nuxt-i18n',
+      {
+        locales: ['en', 'rs'],
+        defaultLocale: 'en',
+        vueI18n: {
+          fallbackLocale: 'en',
+          messages: {
+            en: require('./i18n/en.json'),
+            rs: require('./i18n/rs.json')
+          }
+        }
+      }
+    ]
   ],
   /*
   ** Axios module configuration
@@ -86,7 +99,7 @@ export default {
     transpile: [
       'nuxt-vuex-localstorage'
     ],
-    extend(config, ctx) {
+    extend (config, ctx) {
     }
   }
 }

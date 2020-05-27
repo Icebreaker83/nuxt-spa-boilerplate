@@ -1,0 +1,13 @@
+{
+  "app-bar": {
+    "settings": {
+      "profile": "Профил",
+      "theme": {
+        "label": "Тема",
+        "dark": "Тамна",
+        "light": "Светла"
+      },
+      "logout": "Одјава"
+    }
+  }
+}

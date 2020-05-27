@@ -1,19 +1,59 @@
 <template>
   <v-app>
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-    >
+    <v-app-bar :clipped-left="clipped" fixed app color="primary">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
-      <v-btn
+      <!-- <v-btn
         icon
         @click.stop="rightDrawer = !rightDrawer"
       >
-        <v-icon>mdi-settings</v-icon>
-      </v-btn>
+        <v-icon>mdi-account-cog</v-icon>
+      </v-btn> -->
+      <v-menu eager flat dark nudge-bottom="40" nudge-left="50">
+        <template v-slot:activator="{ on }">
+          <v-btn text class="toolbar-button body-2" dark v-on="on">
+            Add username here
+            <v-icon size="18">
+              mdi-chevron-down
+            </v-icon>
+          </v-btn>
+        </template>
+        <v-list flat light dense subheader>
+          <v-list-item>
+            <v-btn text class="toolbar-button-item body-2">
+              {{ $t('app-bar.settings.profile') }}
+            </v-btn>
+          </v-list-item>
+          <v-divider />
+          <v-list-item>
+            <v-container fluid class="pa-0 ma-0">
+              <v-row no-gutters>
+                <v-col class="ml-4 mt-2">
+                  <span class="toolbar-button body-2">{{ $t('app-bar.settings.theme.label') }}</span>
+                </v-col>
+              </v-row>
+              <v-row no-gutters align="center">
+                <v-col class="mr-2">
+                  <span class="toolbar-button body-2">{{ $t('app-bar.settings.theme.dark') }}</span>
+                </v-col>
+                <v-col>
+                  <v-switch v-model="$vuetify.theme.dark" />
+                </v-col>
+                <v-col class="ml-1">
+                  <span class="toolbar-button body-2">{{ $t('app-bar.settings.theme.light') }}</span>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-list-item>
+          <v-divider/>
+          <v-list-item>
+            <v-btn text class="toolbar-button-item  body-2">
+              {{ $t('app-bar.settings.logout') }}
+            </v-btn>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -138,6 +178,12 @@ export default {
       return !i.to && i.title.toLowerCase() === this.$route.name.split('-')[0]
     })
     if (test) { test.active = true }
+  },
+  methods: {
+    changeLanguage (lang) {
+      this.$store.commit('language-store/SET_LANG', lang)
+      this.$i18n.locale = lang
+    }
   }
 }
 </script>

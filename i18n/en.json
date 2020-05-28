@@ -1,5 +1,6 @@
 {
   "app-bar": {
+    "title": "Add title here",
     "settings": {
       "profile": "Profile",
       "theme": {

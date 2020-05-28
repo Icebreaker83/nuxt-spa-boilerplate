@@ -28,7 +28,7 @@ export default {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [],
+  plugins: [{ ssr: false, src: '~/plugins/setLocalizationFromStore.js' }],
   /*
   ** Nuxt.js dev-modules
   */
@@ -45,12 +45,16 @@ export default {
     '@nuxtjs/axios',
     ['nuxt-vuex-localstorage', {
       mode: 'debug',
-      localStorage: ['language-store']
+      localStorage: ['language', 'sidebar']
     }],
     [
       'nuxt-i18n',
       {
-        locales: ['en', 'rs'],
+        // locales: ['en', 'rs'],
+        locales: [
+          { code: 'en', name: 'English' },
+          { code: 'rs', name: 'Српски' }
+        ],
         defaultLocale: 'en',
         vueI18n: {
           fallbackLocale: 'en',
@@ -76,6 +80,9 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
+      options: {
+        customProperties: true
+      },
       themes: {
         dark: {
           primary: colors.blue.darken2,
@@ -84,7 +91,8 @@ export default {
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          success: colors.green.accent3,
+          menu_items: colors.shades.white
         }
       }
     }

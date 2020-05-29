@@ -10,5 +10,19 @@
       },
       "logout": "Одјава"
     }
+  },
+  "side-nav": {
+    "dashboard": {
+      "title": "Дешборд"
+    },
+    "administration": {
+      "title": "Администрација",
+      "users": {
+        "title": "Корисници"
+      },
+      "roles": {
+        "title": "Улоге"
+      }
+    }
   }
 }

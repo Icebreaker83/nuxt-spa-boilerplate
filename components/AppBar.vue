@@ -17,15 +17,13 @@
           </v-icon>
         </v-btn>
       </template>
-      <!-- List of options -->
+      <!-- List of languages -->
       <v-list flat dense subheader>
-        <!-- Profile -->
         <v-list-item v-for="locale in $i18n.locales" :key="locale.code" class="ma-0 pa-0">
-          <v-btn text class="toolbar-button-item body-2" @click.stop="setLocale(locale.code)">
+          <v-btn text class="toolbar-button-item body-2" @click="setLocale(locale.code)">
             {{ locale.name }}
           </v-btn>
         </v-list-item>
-        <v-divider />
       </v-list>
     </v-menu>
     <!-- Account settings menu -->
@@ -90,7 +88,11 @@ export default {
     },
     setLocale (locale) {
       this.$store.commit('language/SET_LANG', locale)
-      this.$i18n.locale = locale
+      // nextTick is required so that DOM is updated when locale is changed
+      // Otherwise text in all other components wouldn't change when local is changed
+      this.$nextTick(() => {
+        this.$i18n.locale = locale
+      })
     }
   }
 }

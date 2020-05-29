@@ -10,5 +10,19 @@
       },
       "logout": "Log Out"
     }
+  },
+  "side-nav": {
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "administration": {
+      "title": "Administration",
+      "users": {
+        "title": "Users"
+      },
+      "roles": {
+        "title": "Roles"
+      }
+    }
   }
 }

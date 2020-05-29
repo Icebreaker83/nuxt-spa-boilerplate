@@ -4,7 +4,7 @@
     clipped
     fixed
     app
-    width="270px"
+    width="280px"
   >
     <v-list>
       <v-container v-for="item in items" :key="item.title" class="pa-0">
@@ -16,7 +16,11 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title v-text="item.title" />
+            {{ $t(`${item.title}`) }}
+            <!-- <v-list-item-title :v-text="sideNavItemTitle(item.title)" /> -->
+            <!-- <v-list-item-title>
+              {{ sideNavItemTitle(item.title) }}
+            </v-list-item-title> -->
           </v-list-item-content>
         </v-list-item>
         <v-list-group
@@ -27,7 +31,11 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <v-list-item-title v-text="item.title" />
+              {{ $t(`${item.title}`) }}
+              <!-- <v-list-item-title :v-text="sideNavItemTitle(item.title)" /> -->
+              <!-- <v-list-item-title>
+                {{ sideNavItemTitle(item.title) }}
+              </v-list-item-title> -->
             </v-list-item-content>
           </template>
           <v-list-item
@@ -37,7 +45,11 @@
             class="pl-20"
           >
             <v-list-item-content>
-              <v-list-item-title v-text="subItem.title" />
+              {{ $t(`${subItem.title}`) }}
+              <!-- <v-list-item-title :v-text="sideNavItemTitle(subItem.title)" /> -->
+              <!-- <v-list-item-title>
+                {{ sideNavItemTitle(item.title) }}
+              </v-list-item-title> -->
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -52,24 +64,25 @@ import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      // collapsed: false,
+      // By design, paths are not taken from router
+      // Explicit definition of SideNav items is required in items Array
       items: [
         {
           icon: 'mdi-apps',
-          title: 'Dashboard',
+          title: 'side-nav.dashboard.title',
           to: '/'
         },
         {
           icon: 'mdi-microsoft',
-          title: 'Administration',
+          title: 'side-nav.administration.title',
           active: false,
           subItems: [
             {
-              title: 'Users',
+              title: 'side-nav.administration.users.title',
               to: '/administration/users'
             },
             {
-              title: 'Roles',
+              title: 'side-nav.administration.roles.title',
               to: '/administration/roles'
             }
           ]
@@ -81,6 +94,11 @@ export default {
     ...mapGetters({
       collapsed: 'sidebar/collapsed'
     })
+    // SideNav items title in computed because we want tu recalculate them on locale change
+    // title passed should be the json path of title in i18n files
+    // sideNavItemTitle () {
+    //   return this.$t(`${title}`)
+    // }
   },
   mounted () {
     // Expand drawer item on page reload
@@ -88,6 +106,8 @@ export default {
       return !i.to && i.title.toLowerCase() === this.$route.name.split('-')[0]
     })
     if (activeListGroup) { activeListGroup.active = true }
+  },
+  methods: {
   }
 }
 </script>

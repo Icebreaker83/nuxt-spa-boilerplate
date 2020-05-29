@@ -17,10 +17,6 @@
           </v-list-item-action>
           <v-list-item-content>
             {{ $t(`${item.title}`) }}
-            <!-- <v-list-item-title :v-text="sideNavItemTitle(item.title)" /> -->
-            <!-- <v-list-item-title>
-              {{ sideNavItemTitle(item.title) }}
-            </v-list-item-title> -->
           </v-list-item-content>
         </v-list-item>
         <v-list-group
@@ -32,10 +28,6 @@
           <template v-slot:activator>
             <v-list-item-content>
               {{ $t(`${item.title}`) }}
-              <!-- <v-list-item-title :v-text="sideNavItemTitle(item.title)" /> -->
-              <!-- <v-list-item-title>
-                {{ sideNavItemTitle(item.title) }}
-              </v-list-item-title> -->
             </v-list-item-content>
           </template>
           <v-list-item
@@ -46,10 +38,6 @@
           >
             <v-list-item-content>
               {{ $t(`${subItem.title}`) }}
-              <!-- <v-list-item-title :v-text="sideNavItemTitle(subItem.title)" /> -->
-              <!-- <v-list-item-title>
-                {{ sideNavItemTitle(item.title) }}
-              </v-list-item-title> -->
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -94,11 +82,6 @@ export default {
     ...mapGetters({
       collapsed: 'sidebar/collapsed'
     })
-    // SideNav items title in computed because we want tu recalculate them on locale change
-    // title passed should be the json path of title in i18n files
-    // sideNavItemTitle () {
-    //   return this.$t(`${title}`)
-    // }
   },
   mounted () {
     // Expand drawer item on page reload

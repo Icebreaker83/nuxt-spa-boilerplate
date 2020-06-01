@@ -26,6 +26,10 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <!-- Log In -->
+    <v-btn to="/login" type="button" color="primary lighten-1">
+      {{ $t('app-bar.login') }}
+    </v-btn>
     <!-- Account settings menu -->
     <v-menu flat nudge-bottom="40">
       <!-- Menu expand button -->

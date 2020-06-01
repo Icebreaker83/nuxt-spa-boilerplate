@@ -1,0 +1,11 @@
+/* Adds asterisk symbol to label and h3 because required prop was deprecated */
+.required label::after,h3::after{
+    content: "*" !important;
+}
+.v-card__text, .v-card__title {
+    word-break: normal !important;
+
+}
+.v-btn__content {
+    text-transform: none;
+}

@@ -2,6 +2,10 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   mode: 'spa',
+  server: {
+    port: 8080, // default: 3000
+    host: 'localhost' // default: localhost
+  },
   /*
   ** Headers of the page
   */
@@ -19,11 +23,17 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: {
+    name: 'chasing-dots',
+    color: '#ff5638',
+    background: 'white',
+    height: '4px'
+  },
   /*
   ** Global CSS
   */
   css: [
+    '~/css/main.css'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -31,9 +41,9 @@ export default {
   plugins: [
     { ssr: false, src: '~/plugins/setThemeFromStore.js' }
   ],
-  // router: {
-  //   middleware: ['test']
-  // },
+  router: {
+    middleware: ['auth']
+  },
   /*
   ** Nuxt.js dev-modules
   */
@@ -48,9 +58,10 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
     ['nuxt-vuex-localstorage', {
       mode: 'debug',
-      localStorage: ['sidebar', 'theme', 'i18n']
+      localStorage: ['sidebar', 'theme', 'i18n', 'security']
     }],
     [
       'nuxt-i18n',
@@ -86,6 +97,24 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+    baseURL: 'http://localhost:2282/api'
+  },
+  toast: {
+    position: 'top-right',
+    duration: 2000
+  },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: 'payload.accessToken' },
+          logout: false,
+          user: { url: '/administration/user-information', method: 'get', propertyName: 'payload' }
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
+      }
+    }
   },
   /*
   ** vuetify module configuration
@@ -100,7 +129,10 @@ export default {
       },
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: {
+            base: colors.blue.darken2,
+            lighten1: colors.blue.darken1
+          },
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

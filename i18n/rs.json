@@ -1,6 +1,7 @@
 {
   "app-bar": {
     "title": "Наслов додати овде",
+    "login": "Пријава",
     "settings": {
       "profile": "Профил",
       "theme": {
@@ -24,5 +25,39 @@
         "title": "Улоге"
       }
     }
+  },
+  "login": {
+    "title": "Пријава",
+    "username": "Корисничко име",
+    "password": "Лозинка",
+    "firstTime": "Пријављујем се први пут",
+    "forgottenPassword": "Заборављена лозинка?"
+  },
+  "form": {
+    "ok": "У реду",
+    "cancel": "Одустани",
+    "submit": "Потврди",
+    "send": "Пошаљи",
+    "close": "Затвори",
+    "save": "Сачувај",
+    "apply": "Примени",
+    "edit": "Измени",
+    "warning": "Упозорење",
+    "notification": "Обавештење",
+    "load": "Учитај",
+    "saveToFile": "Сачувај у фајл",
+    "saveToDiagnosticFile": "Сачувај у дијагностички фајл",
+    "saveToClipboard": "Сачувај у клипборд",
+    "capsLockOn": "Укључен је CapsLock",
+    "activate": "Активирај",
+    "revoke": "Опозови",
+    "saveSubscription": "Сачувај претплату",
+    "add": "Унос",
+    "update": "Ажурирај",
+    "success": "Успешно сте извршили акцију",
+    "delete": "Обриши",
+    "exportToCsv": "Извоз у цсв",
+    "exportToJson": "Извоз у јсон",
+    "notChangedForm": "Морате променити бар једно поље"
   }
 }

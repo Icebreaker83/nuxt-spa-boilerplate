@@ -1,6 +1,7 @@
 {
   "app-bar": {
     "title": "Add title here",
+    "login": "Login",
     "settings": {
       "profile": "Profile",
       "theme": {
@@ -24,5 +25,39 @@
         "title": "Roles"
       }
     }
+  },
+  "login": {
+    "title": "LOGIN",
+    "username": "Username",
+    "password": "Password",
+    "firstTime": "First-Time Login",
+    "forgottenPassword": "Forgot Password?"
+  },
+  "form": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "send": "Send",
+    "close": "Close",
+    "save": "Save",
+    "apply": "Apply",
+    "edit": "Edit",
+    "warning": "Warning",
+    "notification": "Notification",
+    "load": "Load",
+    "saveToFile": "Save to file",
+    "saveToDiagnosticFile": "Save to diagnostic file",
+    "saveToClipboard": "Save to clipboard",
+    "capsLockOn": "Caps Lock is on",
+    "activate": "Activate",
+    "revoke": "Revoke",
+    "delete": "Delete",
+    "saveSubscription": "Subscribe",
+    "add": "Add",
+    "update": "Update",
+    "success": "Action successfully executed",
+    "exportToCsv": "Export to csv",
+    "exportToJson": "Export to json",
+    "notChangedForm": "At least one field has to be changed"
   }
 }

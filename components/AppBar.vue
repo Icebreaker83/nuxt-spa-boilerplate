@@ -20,7 +20,7 @@
       <!-- List of languages -->
       <v-list flat dense subheader>
         <v-list-item v-for="locale in $i18n.locales" :key="locale.code" class="ma-0 pa-0">
-          <v-btn text class="toolbar-button-item body-2" @click="setLocale(locale.code)">
+          <v-btn text class="toolbar-button-item body-2" @click="$i18n.setLocale(locale.code)">
             {{ locale.name }}
           </v-btn>
         </v-list-item>
@@ -85,14 +85,7 @@ export default {
     }),
     toggleTheme () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
-    },
-    setLocale (locale) {
-      this.$store.commit('language/SET_LANG', locale)
-      // nextTick is required so that DOM is updated when locale is changed
-      // Otherwise text in all other components wouldn't change when local is changed
-      this.$nextTick(() => {
-        this.$i18n.locale = locale
-      })
+      this.$store.commit('theme/TOGGLE_THEME')
     }
   }
 }
@@ -116,7 +109,7 @@ export default {
 /* .v-list {
   background: var(--v-menu_items-base) !important;
 } */
-
+/*
 .custom >>>.v-input__slot:before {
     border-style: none;
     margin: 0;
@@ -127,7 +120,7 @@ export default {
     border-style: none;
     margin: 0;
     padding: 0;
-}
+} */
 /*
 .custom >>>.v-select__selections {
   background: red !important;

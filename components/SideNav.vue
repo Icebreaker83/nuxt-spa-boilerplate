@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer
-    :value="collapsed"
+    :value="!collapsed"
     clipped
     fixed
     app
@@ -8,26 +8,16 @@
   >
     <v-list>
       <v-container v-for="item in items" :key="item.title" class="pa-0">
-        <v-list-item
-          v-if="item.to"
-          :to="item.to"
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            {{ $t(`${item.title}`) }}
-          </v-list-item-content>
-        </v-list-item>
+        <!-- If item has group prop, then item group is created with subitems -->
         <v-list-group
-          v-else
+          v-if="item.group"
           v-model="item.active"
           :prepend-icon="item.icon"
           no-action
         >
           <template v-slot:activator>
             <v-list-item-content>
-              {{ $t(`${item.title}`) }}
+              {{ $t(`side-nav.${item.title}.title`) }}
             </v-list-item-content>
           </template>
           <v-list-item
@@ -37,10 +27,22 @@
             class="pl-20"
           >
             <v-list-item-content>
-              {{ $t(`${subItem.title}`) }}
+              {{ $t(`side-nav.${subItem.title}.title`) }}
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
+        <!-- else item is created -->
+        <v-list-item
+          v-else
+          :to="item.to"
+        >
+          <v-list-item-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            {{ $t(`side-nav.${item.title}.title`) }}
+          </v-list-item-content>
+        </v-list-item>
       </v-container>
     </v-list>
   </v-navigation-drawer>
@@ -57,20 +59,21 @@ export default {
       items: [
         {
           icon: 'mdi-apps',
-          title: 'side-nav.dashboard.title',
+          title: 'dashboard',
           to: '/'
         },
         {
           icon: 'mdi-microsoft',
-          title: 'side-nav.administration.title',
+          title: 'administration',
+          group: true,
           active: false,
           subItems: [
             {
-              title: 'side-nav.administration.users.title',
+              title: 'administration.users',
               to: '/administration/users'
             },
             {
-              title: 'side-nav.administration.roles.title',
+              title: 'administration.roles',
               to: '/administration/roles'
             }
           ]
@@ -86,7 +89,7 @@ export default {
   mounted () {
     // Expand drawer item on page reload
     const activeListGroup = this.items.find((i) => {
-      return !i.to && i.title.toLowerCase() === this.$route.name.split('-')[0]
+      return i.group && i.title.toLowerCase() === this.$route.name.split('-')[0]
     })
     if (activeListGroup) { activeListGroup.active = true }
   },

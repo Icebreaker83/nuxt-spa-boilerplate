@@ -28,7 +28,12 @@ export default {
   /*
   ** Plugins to load before mounting the App
   */
-  plugins: [{ ssr: false, src: '~/plugins/setLocalizationFromStore.js' }],
+  plugins: [
+    { ssr: false, src: '~/plugins/setThemeFromStore.js' }
+  ],
+  // router: {
+  //   middleware: ['test']
+  // },
   /*
   ** Nuxt.js dev-modules
   */
@@ -45,24 +50,34 @@ export default {
     '@nuxtjs/axios',
     ['nuxt-vuex-localstorage', {
       mode: 'debug',
-      localStorage: ['language', 'sidebar']
+      localStorage: ['sidebar', 'theme', 'i18n']
     }],
     [
       'nuxt-i18n',
       {
+        strategy: 'no_prefix',
         // locales: ['en', 'rs'],
         locales: [
-          { code: 'en', name: 'English' },
-          { code: 'rs', name: 'Српски' }
+          { code: 'en', name: 'English', file: 'en.json' },
+          { code: 'rs', name: 'Српски', file: 'rs.json' }
         ],
+        lazy: true,
+        langDir: 'i18n/',
         defaultLocale: 'en',
-        vueI18n: {
-          fallbackLocale: 'en',
-          messages: {
-            en: require('./i18n/en.json'),
-            rs: require('./i18n/rs.json')
-          }
+        vuex: {
+          // Module namespace
+          moduleName: 'i18n',
+          // If enabled, current app's locale is synced with nuxt-i18n store module
+          syncLocale: true,
+          // If enabled, current translation messages are synced with nuxt-i18n store module
+          syncMessages: true,
+          // Mutation to commit to set route parameters translations
+          syncRouteParams: false
         }
+        // parsePages: false,
+        // pages: {
+        //   about: false
+        // }
       }
     ]
   ],

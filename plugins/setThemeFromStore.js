@@ -1,5 +1,5 @@
 export default function ({ store, app }) {
   window.onNuxtReady(() => {
-    app.i18n.locale = store.getters['language/getLocale']
+    app.vuetify.framework.theme.dark = store.getters['theme/themeIsDark']
   })
 }

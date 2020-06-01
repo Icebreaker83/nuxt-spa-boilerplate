@@ -23,10 +23,6 @@ export default {
     SideNav
   },
   methods: {
-    changeLanguage (lang) {
-      this.$store.commit('language/SET_LANG', lang)
-      this.$i18n.locale = lang
-    }
   }
 }
 </script>

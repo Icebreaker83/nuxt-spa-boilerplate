@@ -1,11 +1,19 @@
 <template>
-  <v-app-bar dark clipped-left fixed app color="primary">
+  <v-app-bar
+    v-if="renderAppBar"
+    dark
+    clipped-left
+    fixed
+    app
+    color="primary"
+  >
     <!-- SideNav collapse button -->
-    <v-app-bar-nav-icon @click.stop="toggleCollapse" />
+    <v-app-bar-nav-icon v-if="loggedIn" @click.stop="toggleCollapse" />
     <!-- Title -->
     <v-toolbar-title v-text="$t('app-bar.title')" />
     <!-- Spacer -->
     <v-spacer />
+    <!-- <span> {{ currentLocaleName }} </span> -->
     <!-- Language -->
     <v-menu flat nudge-bottom="40">
       <!-- Menu expand button -->
@@ -27,15 +35,15 @@
       </v-list>
     </v-menu>
     <!-- Log In -->
-    <v-btn to="/login" type="button" color="primary lighten-1">
+    <v-btn v-if="!loggedIn" to="/login" type="button" color="primary lighten-1">
       {{ $t('app-bar.login') }}
     </v-btn>
     <!-- Account settings menu -->
-    <v-menu flat nudge-bottom="40">
+    <v-menu v-else flat nudge-bottom="40">
       <!-- Menu expand button -->
       <template v-slot:activator="{ on }">
         <v-btn text class="toolbar-button body-2" v-on="on">
-          Add username here
+          {{ $auth.user.login }}
           <v-icon size="18">
             mdi-chevron-down
           </v-icon>
@@ -59,7 +67,7 @@
         <v-divider />
         <!-- Log Out -->
         <v-list-item class="ma-0 pa-0">
-          <v-btn text class="toolbar-button-item body-2">
+          <v-btn text class="toolbar-button-item body-2" @click="logout">
             {{ $t('app-bar.settings.logout') }}
           </v-btn>
         </v-list-item>
@@ -68,10 +76,21 @@
   </v-app-bar>
 </template>
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
+  data () {
+    return {
+      renderAppBar: true,
+      isInactive: false,
+      userActivityThrottlerTimeout: null,
+      userActivityTimeout: null,
+      INACTIVE_USER_TIME_THRESHOLD: 1 * 60 * 1000,
+      USER_ACTIVITY_THROTTLER_TIME: 0.5 * 60 * 1000
+    }
+  },
   computed: {
+    ...mapState('auth', ['loggedIn', 'user']),
     currentTheme () {
       return (this.$vuetify.theme.isDark) ? this.$t('app-bar.settings.theme.dark') : this.$t('app-bar.settings.theme.light')
     },
@@ -79,17 +98,70 @@ export default {
       return this.$i18n.locales.find(locale => locale.code === this.$i18n.locale).name
     }
   },
+  watch: {
+    // fix for issue #2
+    // localization v-menu has an issue with nuxt where it is moved to the end of AppBar after logout
+    // solution is to force rerender AppBar component after logout
+    '$auth.loggedIn' (newVal, oldVal) {
+      if (!newVal && oldVal) {
+        this.renderAppBar = false
+        this.$nextTick(() => {
+          this.renderAppBar = true
+        })
+      }
+    }
+  },
+  beforeMount () {
+    this.activateActivityTracker()
+  },
   mounted () {
-    // console.log(this.$refs['locale-select'])
+  },
+  beforeDestroy () {
+    window.removeEventListener('mousemove', this.userActivityThrottler)
+    window.removeEventListener('scroll', this.userActivityThrottler)
+    window.removeEventListener('keydown', this.userActivityThrottler)
+    window.removeEventListener('resize', this.userActivityThrottler)
+    clearTimeout(this.userActivityTimeout)
+    clearTimeout(this.userActivityThrottlerTimeout)
   },
   methods: {
+    activateActivityTracker () {
+      window.addEventListener('mousemove', this.userActivityThrottler)
+      window.addEventListener('scroll', this.userActivityThrottler)
+      window.addEventListener('keydown', this.userActivityThrottler)
+      window.addEventListener('resize', this.userActivityThrottler)
+    },
+    resetUserActivityTimeout () {
+      clearTimeout(this.userActivityTimeout)
+      this.userActivityTimeout = setTimeout(() => {
+        this.inactiveUserAction()
+      }, this.INACTIVE_USER_TIME_THRESHOLD)
+    },
+    userActivityThrottler () {
+      if (!this.userActivityThrottlerTimeout) {
+        this.userActivityThrottlerTimeout = setTimeout(() => {
+          this.resetUserActivityTimeout()
+          clearTimeout(this.userActivityThrottlerTimeout)
+          this.userActivityThrottlerTimeout = null
+        }, this.USER_ACTIVITY_THROTTLER_TIME)
+      }
+    },
+    inactiveUserAction () {
+      if (this.$auth.loggedIn) {
+        this.$auth.options.redirect.home = this.$route.path
+        this.$auth.logout()
+      }
+    },
     ...mapMutations({
-      // map `this.toggleCollapse()` to `this.$store.commit('sidebar/SET_COLLAPSED')`
       toggleCollapse: 'sidebar/SET_COLLAPSED'
     }),
     toggleTheme () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       this.$store.commit('theme/TOGGLE_THEME')
+    },
+    logout () {
+      this.$auth.options.redirect.home = '/'
+      this.$auth.logout()
     }
   }
 }

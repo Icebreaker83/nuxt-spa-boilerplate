@@ -41,8 +41,9 @@ export default {
   plugins: [
     { ssr: false, src: '~/plugins/setThemeFromStore.js' }
   ],
+  // globaly set auth module middleware for all routs
   router: {
-    middleware: ['auth']
+    middleware: ['auth', 'refreshToken']
   },
   /*
   ** Nuxt.js dev-modules
@@ -59,6 +60,8 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    // '@nuxtjs/auth-next',
+    '@nuxtjs/toast',
     ['nuxt-vuex-localstorage', {
       mode: 'debug',
       localStorage: ['sidebar', 'theme', 'i18n', 'security']
@@ -100,10 +103,12 @@ export default {
     baseURL: 'http://localhost:2282/api'
   },
   toast: {
-    position: 'top-right',
-    duration: 2000
+    position: 'top-center',
+    duration: 4000
   },
   auth: {
+    // plugins: [{ ssr: false, src: '~/plugins/auth.js' }],
+    localStorage: false,
     strategies: {
       local: {
         endpoints: {
@@ -113,8 +118,25 @@ export default {
         },
         tokenRequired: true,
         tokenType: 'Bearer'
+      },
+      customStrategy: {
+        _scheme: '~/schemes/customScheme',
+        endpoints: {
+          login: { url: '/login', method: 'post', propertyName: 'payload.accessToken' },
+          logout: false,
+          user: { url: '/administration/user-information', method: 'get', propertyName: 'payload' }
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
       }
-    }
+    },
+    redirect: {
+      login: '/login',
+      logout: '/login',
+      callback: '/login',
+      home: '/'
+    },
+    rewriteRedirects: true
   },
   /*
   ** vuetify module configuration
@@ -152,7 +174,8 @@ export default {
     ** You can extend webpack config here
     */
     transpile: [
-      'nuxt-vuex-localstorage'
+      'nuxt-vuex-localstorage',
+      '@nuxtjs/auth'
     ],
     extend (config, ctx) {
     }

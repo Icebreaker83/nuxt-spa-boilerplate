@@ -29,8 +29,8 @@
                 />
               </v-col>
             </v-row>
-            <v-row>
-              <v-col>
+            <v-row dense justify="center">
+              <v-col cols="12" sm="10">
                 <v-btn
                   color="secondary"
                   type="submit"
@@ -44,8 +44,8 @@
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row dense>
-              <v-col>
+            <v-row dense justify="center">
+              <v-col cols="12" sm="10">
                 <v-btn
                   outlined
                   color="secondary"
@@ -82,7 +82,10 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode'
+
 export default {
+  // auth: false,
   data () {
     return {
       loading: false,
@@ -92,9 +95,6 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log(process.env.baseUrl)
-  },
   methods: {
     initialLogin () {
     },
@@ -102,14 +102,17 @@ export default {
     },
     async validateBeforeLogin () {
       try {
-        await this.$auth.loginWith('local', {
+        await this.$auth.loginWith('customStrategy', {
           data: {
             login: this.user.login,
             password: this.user.password
           }
         })
+        const decodedToken = jwtDecode(this.$auth.getToken(this.$auth.strategy.name))
+        this.$store.commit('security/SET_EXPIRATION_DATE', decodedToken.exp)
+        this.$toast.success(`Welcome ${this.$auth.user.login}`)
       } catch {
-        this.$toast.error('Failed Logging In', { icon: 'error_outline' })
+        this.$toast.error('Username or Password wrong')
       }
     }
   }

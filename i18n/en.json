@@ -31,7 +31,12 @@
     "username": "Username",
     "password": "Password",
     "firstTime": "First-Time Login",
-    "forgottenPassword": "Forgot Password?"
+    "forgottenPassword": "Forgot Password?",
+    "welcomeMessage": "Welcome",
+    "errors": {
+      "400": "Username or Password are not correct. Please try again",
+      "default": "Something went wrong. Please try again later"
+    }
   },
   "form": {
     "ok": "OK",
@@ -59,5 +64,8 @@
     "exportToCsv": "Export to csv",
     "exportToJson": "Export to json",
     "notChangedForm": "At least one field has to be changed"
+  },
+  "validation": {
+    "fieldRequired": "field is required"
   }
 }

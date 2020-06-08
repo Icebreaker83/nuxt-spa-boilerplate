@@ -39,7 +39,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { ssr: false, src: '~/plugins/setThemeFromStore.js' }
+    { ssr: false, src: '~/plugins/setThemeFromStore' },
+    { ssr: false, src: '~/plugins/vuelidate' }
   ],
   // globaly set auth module middleware for all routs
   router: {

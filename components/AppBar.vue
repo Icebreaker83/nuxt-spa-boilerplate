@@ -8,7 +8,7 @@
     color="primary"
   >
     <!-- SideNav collapse button -->
-    <v-app-bar-nav-icon v-if="loggedIn" @click.stop="toggleCollapse" />
+    <v-app-bar-nav-icon @click.stop="toggleCollapse" />
     <!-- Title -->
     <v-toolbar-title v-text="$t('app-bar.title')" />
     <!-- Spacer -->

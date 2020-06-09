@@ -17,7 +17,6 @@
         >
           <template v-slot:activator>
             <v-list-item-content>
-              <!-- {{ $t(`side-nav.${item.title}.title`) }} -->
               {{ item.title }}
             </v-list-item-content>
           </template>
@@ -29,7 +28,6 @@
           >
             <v-list-item-content>
               {{ subItem.title }}
-              <!-- {{ $t(`side-nav.${subItem.title}.title`) }} -->
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -42,7 +40,6 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <!-- {{ $t(`side-nav.${item.title}.title`) }} -->
             {{ item.title }}
           </v-list-item-content>
         </v-list-item>
@@ -53,36 +50,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import { hasAdminClaim } from '@/util/claims'
+import sideNavMixin from '~/mixins/side-nav'
 
 export default {
+  mixins: [sideNavMixin],
   data () {
     return {
-      // By design, paths are not taken from router
-      // Explicit definition of SideNav items is required in items Array
-      // items: [
-      //   {
-      //     icon: 'mdi-apps',
-      //     title: 'dashboard',
-      //     to: '/'
-      //   },
-      //   {
-      //     icon: 'mdi-microsoft',
-      //     title: 'administration',
-      //     group: true,
-      //     active: false,
-      //     subItems: [
-      //       {
-      //         title: 'administration.users',
-      //         to: '/administration/users'
-      //       },
-      //       {
-      //         title: 'administration.roles',
-      //         to: '/administration/roles'
-      //       }
-      //     ]
-      //   }
-      // ],
       claims: []
     }
   },
@@ -90,8 +63,14 @@ export default {
     ...mapGetters({
       collapsed: 'sidebar/collapsed'
     }),
+    groupIsActive () {
+      const activeListGroup = this.menu.find((item) => {
+        return item.group && item.name === this.$auth.options.redirect.home.split('/')[1]
+      })
+      return activeListGroup.length === 1
+    },
     menu () {
-      return [
+      const menu = [
         {
           title: this.$t('side-nav.dashboard.title'),
           to: '/',
@@ -99,6 +78,7 @@ export default {
         },
         ...this.administrationItem
       ]
+      return menu
     },
     administrationItem () {
       const menuArray = [
@@ -111,7 +91,7 @@ export default {
           subItems: [...this.usersItem, ...this.rolesItem]
         }
       ]
-      return this.claims.includes('Claim_Admin') || this.claims.includes('Claim_User_Create') || this.claims.includes('Claim_User_Review') || this.claims.includes('Claim_Organization_Review') ? menuArray : []
+      return this.canViewAdministration() ? menuArray : []
     },
     usersItem () {
       const menuArray = [
@@ -120,7 +100,7 @@ export default {
           to: '/administration/users'
         }
       ]
-      return this.claims.includes('Claim_Admin') || this.claims.includes('Claim_User_Create') ? menuArray : []
+      return this.canViewAdminUsers ? menuArray : []
     },
     rolesItem () {
       const menuArray = [
@@ -129,18 +109,29 @@ export default {
           to: '/administration/roles'
         }
       ]
-      return this.claims.includes('Claim_Admin') || this.claims.includes('Claim_User_Create') ? menuArray : []
+      return this.canViewAdminRoles ? menuArray : []
+    }
+  },
+  watch: {
+    // Expand drawer group item when logging in after timeout loggout
+    '$auth.loggedIn' (newVal, oldVal) {
+      if (newVal && !oldVal) {
+        this.setActiveGroup()
+      }
     }
   },
   mounted () {
-    this.claims = this.$auth.user.creationClaims.map(claim => claim.name)
-    // Expand drawer item on page reload
-    const activeListGroup = this.menu.find((item) => {
-      return item.group && item.name === this.$auth.options.redirect.home.split('/')[1]
-    })
-    if (activeListGroup) { activeListGroup.active = true }
+    // Expand drawer group item on page reload
+    this.setActiveGroup()
   },
   methods: {
+    setActiveGroup () {
+      const home = this.$auth.options.redirect.home === '/' ? this.$route.path : this.$auth.options.redirect.home
+      const activeListGroup = this.menu.find((item) => {
+        return item.group && item.name === home.split('/')[1]
+      })
+      if (activeListGroup) { activeListGroup.active = true }
+    }
   }
 }
 </script>

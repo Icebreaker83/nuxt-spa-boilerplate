@@ -117,41 +117,9 @@ export default {
   mounted () {
   },
   beforeDestroy () {
-    window.removeEventListener('mousemove', this.userActivityThrottler)
-    window.removeEventListener('scroll', this.userActivityThrottler)
-    window.removeEventListener('keydown', this.userActivityThrottler)
-    window.removeEventListener('resize', this.userActivityThrottler)
-    clearTimeout(this.userActivityTimeout)
-    clearTimeout(this.userActivityThrottlerTimeout)
+    this.deactivateActivityTracker()
   },
   methods: {
-    activateActivityTracker () {
-      window.addEventListener('mousemove', this.userActivityThrottler)
-      window.addEventListener('scroll', this.userActivityThrottler)
-      window.addEventListener('keydown', this.userActivityThrottler)
-      window.addEventListener('resize', this.userActivityThrottler)
-    },
-    resetUserActivityTimeout () {
-      clearTimeout(this.userActivityTimeout)
-      this.userActivityTimeout = setTimeout(() => {
-        this.inactiveUserAction()
-      }, this.INACTIVE_USER_TIME_THRESHOLD)
-    },
-    userActivityThrottler () {
-      if (!this.userActivityThrottlerTimeout) {
-        this.userActivityThrottlerTimeout = setTimeout(() => {
-          this.resetUserActivityTimeout()
-          clearTimeout(this.userActivityThrottlerTimeout)
-          this.userActivityThrottlerTimeout = null
-        }, this.USER_ACTIVITY_THROTTLER_TIME)
-      }
-    },
-    inactiveUserAction () {
-      if (this.$auth.loggedIn) {
-        this.$auth.options.redirect.home = this.$route.path
-        this.$auth.logout()
-      }
-    },
     ...mapMutations({
       toggleCollapse: 'sidebar/SET_COLLAPSED'
     }),

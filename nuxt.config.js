@@ -40,11 +40,12 @@ export default {
   */
   plugins: [
     { ssr: false, src: '~/plugins/setThemeFromStore' },
-    { ssr: false, src: '~/plugins/vuelidate' }
+    { ssr: false, src: '~/plugins/vuelidate' },
+    { ssr: false, src: '~/plugins/timeoutUser' }
   ],
   // globaly set auth module middleware for all routs
   router: {
-    middleware: ['auth', 'refreshToken']
+    middleware: ['auth', 'refreshToken', 'storeSidenavPath']
   },
   /*
   ** Nuxt.js dev-modules

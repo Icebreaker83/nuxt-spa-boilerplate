@@ -120,7 +120,7 @@ export default {
       }
     }
   },
-  mounted () {
+  beforeMount () {
     // Expand drawer group item on page reload
     this.setActiveGroup()
   },
@@ -130,7 +130,9 @@ export default {
       const activeListGroup = this.menu.find((item) => {
         return item.group && item.name === home.split('/')[1]
       })
-      if (activeListGroup) { activeListGroup.active = true }
+      if (activeListGroup) {
+        activeListGroup.active = true
+      }
     }
   }
 }

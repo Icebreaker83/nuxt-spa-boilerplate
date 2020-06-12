@@ -41,7 +41,10 @@ export default {
   plugins: [
     { ssr: false, src: '~/plugins/setThemeFromStore' },
     { ssr: false, src: '~/plugins/vuelidate' },
-    { ssr: false, src: '~/plugins/timeoutUser' }
+    { ssr: false, src: '~/plugins/timeoutUser' },
+    { ssr: false, src: '~/plugins/api' },
+    // mock plugin contains mock promises
+    { ssr: false, src: '~/plugins/mock' }
   ],
   // globaly set auth module middleware for all routs
   router: {
@@ -158,7 +161,9 @@ export default {
             lighten1: colors.teal.lighten1
           },
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: {
+            base: colors.purple.lighten3
+          },
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
@@ -171,7 +176,9 @@ export default {
             lighten1: colors.teal.darken2
           },
           accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
+          secondary: {
+            base: colors.purple.lighten3
+          },
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,

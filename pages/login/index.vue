@@ -6,7 +6,7 @@
           {{ $t('login.title') }}
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" @submit.prevent="login" @keyup.enter="login">
+          <v-form ref="form" lazy-validation @submit.prevent="login" @keyup.enter="login">
             <v-row dense justify="center">
               <v-col cols="12" sm="10">
                 <v-text-field
@@ -15,9 +15,7 @@
                   :label="$t('login.username')"
                   color="secondary"
                   class="required"
-                  :error-messages="loginErrors"
-                  @input="$v.user.login.$touch()"
-                  @blur="$v.user.login.$touch()"
+                  :rules="usernameRules"
                 />
               </v-col>
             </v-row>
@@ -29,9 +27,7 @@
                   :label="$t('login.password')"
                   color="secondary"
                   class="required"
-                  :error-messages="passwordErrors"
-                  @input="$v.user.password.$touch()"
-                  @blur="$v.user.password.$touch()"
+                  :rules="passwordRules"
                 />
               </v-col>
             </v-row>
@@ -50,37 +46,37 @@
                 </v-btn>
               </v-col>
             </v-row>
-            <v-row dense justify="center">
-              <v-col cols="12" sm="10">
-                <v-btn
-                  outlined
-                  color="secondary"
-                  block
-                  rounded
-                  class="text-none body-2"
-                  @click="initialLogin"
-                >
-                  {{ $t('login.firstTime') }}
-                </v-btn>
-              </v-col>
-            </v-row>
-            <v-row>
-              <!-- <v-spacer /> -->
-              <v-col>
-                <v-btn
-                  small
-                  text
-                  absolute
-                  right
-                  color="secondary"
-                  class="text-none"
-                  @click="forgottenPassword"
-                >
-                  {{ $t('login.forgottenPassword') }}
-                </v-btn>
-              </v-col>
-            </v-row>
           </v-form>
+          <v-row dense justify="center">
+            <v-col cols="12" sm="10">
+              <v-btn
+                outlined
+                color="secondary"
+                block
+                rounded
+                class="text-none body-2"
+                :to="{name: 'login-initial'}"
+              >
+                {{ $t('login.firstTime.title') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <!-- <v-spacer /> -->
+            <v-col>
+              <v-btn
+                small
+                text
+                absolute
+                right
+                color="secondary"
+                class="text-none"
+                @click="forgottenPassword"
+              >
+                {{ $t('login.forgottenPassword') }}
+              </v-btn>
+            </v-col>
+          </v-row>
         </v-card-text>
       </v-card>
     </v-col>
@@ -89,7 +85,6 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
-import { required } from 'vuelidate/lib/validators'
 
 export default {
   data () {
@@ -98,15 +93,15 @@ export default {
       user: {
         login: '',
         password: ''
-      }
-    }
-  },
-  computed: {
-    loginErrors () {
-      return !this.$v.user.login.$error ? '' : `${this.$t('login.username')} ${this.$t('validation.fieldRequired')}`
-    },
-    passwordErrors () {
-      return !this.$v.user.password.$error ? '' : `${this.$t('login.password')} ${this.$t('validation.fieldRequired')}`
+      },
+      usernameRules: [
+        v => !!v || `${this.$t('login.username')} ${this.$t('validation.fieldRequired')}`,
+        v => !/[^A-Za-z0-9_.]/.test(v) || `${this.$t('login.username')} ${this.$t('validation.specialCharsNotAllowed')}`
+      ],
+      passwordRules: [
+        v => !!v || `${this.$t('login.password')} ${this.$t('validation.fieldRequired')}`,
+        v => !/[^A-Za-z0-9_.@!]/.test(v) || `${this.$t('login.password')} ${this.$t('validation.specialCharsNotAllowed')}`
+      ]
     }
   },
   created () {
@@ -119,10 +114,8 @@ export default {
     forgottenPassword () {
     },
     login () {
-      // touch will display error-messages for v-text-field's
-      this.$v.$touch()
-      // if any validation errors return and do not login
-      if (this.$v.user.$error) {
+      // validate form
+      if (!this.$refs.form.validate()) {
         return
       }
       // try to login
@@ -146,16 +139,6 @@ export default {
         const errorMessage = (error.response) ? this.$t(`login.errors.${error.response.status}`) || this.$t('login.errors.default') : this.$t('login.errors.default')
         this.$toast.error(errorMessage)
       })
-    }
-  },
-  validations: {
-    user: {
-      login: {
-        required
-      },
-      password: {
-        required
-      }
     }
   }
 }

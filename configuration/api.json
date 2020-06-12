@@ -1,0 +1,4 @@
+{
+  "login" : "/login",
+  "initialUserActivation": "/administration/activate-registered-user"
+}

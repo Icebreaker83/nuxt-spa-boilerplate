@@ -1,13 +1,17 @@
 <template>
   <v-container>
-    Administration/Roles
+    Roles
   </v-container>
 </template>
 
 <script>
 export default {
   middleware: 'auth-pages',
-  mounted () {
+  data () {
+    return {
+    }
+  },
+  methods: {
   }
 }
 </script>

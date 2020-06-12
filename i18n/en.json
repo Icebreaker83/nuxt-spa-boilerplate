@@ -30,7 +30,11 @@
     "title": "LOGIN",
     "username": "Username",
     "password": "Password",
-    "firstTime": "First-Time Login",
+    "firstTime": {
+      "title": "First-Time Login",
+      "success": "User activation link has been sent to your email address",
+      "error": "Error while sending activation link to your email address"
+    },
     "forgottenPassword": "Forgot Password?",
     "welcomeMessage": "Welcome",
     "errors": {
@@ -66,6 +70,7 @@
     "notChangedForm": "At least one field has to be changed"
   },
   "validation": {
-    "fieldRequired": "field is required"
+    "fieldRequired": "is required",
+    "specialCharsNotAllowed": "contains invalid characters"
   }
 }

@@ -6,75 +6,75 @@
           {{ $t('login.title') }}
         </v-card-title>
         <v-card-text>
-          <v-form ref="form" lazy-validation @submit.prevent="login" @keyup.enter="login">
-            <v-row dense justify="center">
-              <v-col cols="12" sm="10">
-                <v-text-field
-                  ref="usernameInput"
-                  v-model="user.login"
-                  :label="$t('login.username')"
-                  color="secondary"
-                  class="required"
-                  :rules="usernameRules"
-                />
-              </v-col>
-            </v-row>
-            <v-row dense justify="center">
-              <v-col cols="12" sm="10">
-                <v-text-field
-                  v-model="user.password"
-                  type="password"
-                  :label="$t('login.password')"
-                  color="secondary"
-                  class="required"
-                  :rules="passwordRules"
-                />
-              </v-col>
-            </v-row>
-            <v-row dense justify="center">
-              <v-col cols="12" sm="10">
+          <v-row justify="center" class="ma-0 pa-0">
+            <v-col cols="12" sm="10">
+              <v-form ref="form" lazy-validation @submit.prevent="login" @keyup.enter="login">
+                <v-row dense class="mb-2">
+                  <v-text-field
+                    ref="usernameInput"
+                    v-model="user.login"
+                    :label="$t('login.username')"
+                    color="secondary"
+                    class="required"
+                    :rules="usernameRules"
+                  />
+                </v-row>
+                <v-row dense class="mb-2">
+                  <v-text-field
+                    v-model="user.password"
+                    type="password"
+                    :label="$t('login.password')"
+                    color="secondary"
+                    class="required"
+                    :rules="passwordRules"
+                  />
+                </v-row>
+                <v-row dense class="mb-2">
+                  <v-btn
+                    color="secondary"
+                    type="submit"
+                    :loading="loading"
+                    :class="{'disable-events': loading}"
+                    block
+                    rounded
+                    class="text-none body-2"
+                  >
+                    {{ $t('form.submit') }}
+                  </v-btn>
+                </v-row>
+              </v-form>
+              <v-row dense class="mb-2">
                 <v-btn
+                  outlined
                   color="secondary"
-                  type="submit"
-                  :loading="loading"
-                  :class="{'disable-events': loading}"
                   block
                   rounded
                   class="text-none body-2"
+                  :to="{name: 'login-initial'}"
                 >
-                  {{ $t('form.submit') }}
+                  {{ $t('login.firstTime.title') }}
                 </v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-          <v-row dense justify="center">
-            <v-col cols="12" sm="10">
-              <v-btn
-                outlined
-                color="secondary"
-                block
-                rounded
-                class="text-none body-2"
-                :to="{name: 'login-initial'}"
-              >
-                {{ $t('login.firstTime.title') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-row>
-            <!-- <v-spacer /> -->
-            <v-col>
-              <v-btn
-                small
-                text
-                absolute
-                right
-                color="secondary"
-                class="text-none"
-                @click="forgottenPassword"
-              >
-                {{ $t('login.forgottenPassword') }}
-              </v-btn>
+              </v-row>
+              <v-row dense justify="space-between">
+                <v-btn
+                  small
+                  text
+                  color="secondary"
+                  class="text-none"
+                  to="/register"
+                >
+                  {{ $t('login.register') }}
+                </v-btn>
+                <v-btn
+                  small
+                  text
+                  color="secondary"
+                  class="text-none"
+                  @click="forgottenPassword"
+                >
+                  {{ $t('login.forgottenPassword') }}
+                </v-btn>
+              </v-row>
             </v-col>
           </v-row>
         </v-card-text>
@@ -125,6 +125,8 @@ export default {
           password: this.user.password
         }
       }).then((response) => {
+        this.$router.push({ path: this.$store.getters['sidebar/path'] })
+        // this.$auth.options.redirect.home = '/'
         // get decoded access token
         const decodedToken = jwtDecode(this.$auth.getToken(this.$auth.strategy.name))
         // commit token expiration date to localStorage

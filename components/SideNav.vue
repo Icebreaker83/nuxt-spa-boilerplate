@@ -126,9 +126,10 @@ export default {
   },
   methods: {
     setActiveGroup () {
-      const home = this.$auth.options.redirect.home === '/' ? this.$route.path : this.$auth.options.redirect.home
+      const storedPath = this.$store.getters['sidebar/path']
+      if (storedPath === '/') { return }
       const activeListGroup = this.menu.find((item) => {
-        return item.group && item.name === home.split('/')[1]
+        return item.group && item.name === storedPath.split('/')[1]
       })
       if (activeListGroup) {
         activeListGroup.active = true

@@ -128,7 +128,8 @@ export default {
       this.$store.commit('theme/TOGGLE_THEME')
     },
     logout () {
-      this.$auth.options.redirect.home = '/'
+      // this.$auth.options.redirect.home = '/'
+      this.$store.commit('sidebar/SET_PATH', '/')
       this.$auth.logout()
     }
   }

@@ -35,11 +35,34 @@
       "success": "User activation link has been sent to your email address",
       "error": "Error while sending activation link to your email address"
     },
+    "register": "Register",
     "forgottenPassword": "Forgot Password?",
     "welcomeMessage": "Welcome",
     "errors": {
       "400": "Username or Password are not correct. Please try again",
       "default": "Something went wrong. Please try again later"
+    }
+  },
+  "register": {
+    "title": "Register",
+    "user": {
+      "title": "User Information",
+      "username": "Username",
+      "email": "E-mail",
+      "password": "Password",
+      "confirmPassword": "Confirm password"
+    },
+    "personal": {
+      "title": "Personal information",
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "phone": "Phone",
+      "country": "Country",
+      "state": "State",
+      "city": "City",
+      "postalCode": "Postal code",
+      "address1": "Address - line 1",
+      "address2": "Address - line 2"
     }
   },
   "form": {
@@ -71,6 +94,8 @@
   },
   "validation": {
     "fieldRequired": "is required",
-    "specialCharsNotAllowed": "contains invalid characters"
+    "specialCharsNotAllowed": "contains invalid characters",
+    "usernameTooLong": "Username can contain maximum 32 characters",
+    "usernameTooShort": "Username must have 4 characters at least"
   }
 }

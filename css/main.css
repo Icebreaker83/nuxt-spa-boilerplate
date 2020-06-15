@@ -2,9 +2,25 @@
 .required label::after,h3::after{
     content: "*" !important;
 }
+.v-card__title {
+  font-size: 24px !important;
+}
 .v-card__text, .v-card__title {
     word-break: normal !important;
-
+}
+.v-card__subtitle {
+  font-size: 18px !important;
+  font-weight: 600;
+  
+}
+.theme--dark /deep/ .v-card__subtitle {
+  color: rgba(255,255,255, 1) !important;
+}
+.theme--light /deep/ .v-card__subtitle {
+  color: rgba(0,0,0, 1) !important;
+}
+.v-card__text {
+  font-size: 14px !important;
 }
 .v-btn__content {
     text-transform: none;

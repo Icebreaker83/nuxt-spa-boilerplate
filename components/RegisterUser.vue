@@ -9,7 +9,7 @@
           {{ $t('register.user.title') }}
         </v-card-subtitle>
         <v-container class="ml-2">
-          <v-row dense>
+          <v-row v-if="options.username" dense>
             <v-col cols="12" sm="6">
               <v-text-field
                 ref="usernameInput"
@@ -21,7 +21,7 @@
               />
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row v-if="options.email" dense>
             <v-col cols="12" sm="6">
               <v-text-field
                 ref="emailInput"
@@ -33,7 +33,7 @@
               />
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row v-if="options.password" dense>
             <v-col cols="12" sm="6">
               <v-text-field
                 ref="passwordInput"
@@ -46,7 +46,7 @@
               />
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row v-if="options.password" dense>
             <v-col cols="12" sm="6">
               <v-text-field
                 ref="confirmPasswordInput"
@@ -65,8 +65,8 @@
           {{ $t('register.personal.title') }}
         </v-card-subtitle>
         <v-container class="ml-2">
-          <v-row dense>
-            <v-col cols="12" sm="6">
+          <v-row v-if="options.firstname || options.lastname" dense>
+            <v-col v-if="options.firstname" cols="12" sm="6">
               <v-text-field
                 ref="firstnameInput"
                 v-model="user.firstname"
@@ -76,7 +76,7 @@
                 :rules="firstnameRules"
               />
             </v-col>
-            <v-col cols="12" sm="6">
+            <v-col v-if="options.lastname" cols="12" sm="6">
               <v-text-field
                 ref="lastnameInput"
                 v-model="user.lastname"
@@ -87,7 +87,7 @@
               />
             </v-col>
           </v-row>
-          <v-row dense>
+          <v-row v-if="options.phone" dense>
             <v-col cols="12" sm="6">
               <v-text-field
                 v-model="user.phone"
@@ -123,29 +123,19 @@
 <script>
 export default {
   props: {
-    username: {
-      type: Boolean,
-      default: true
-    },
-    name: {
-      type: Boolean,
-      default: true
-    },
-    surname: {
-      type: Boolean,
-      default: true
-    },
-    email: {
-      type: Boolean,
-      default: true
-    },
-    phone: {
-      type: Boolean,
-      default: true
-    },
-    address1: {
-      type: Boolean,
-      default: true
+    options: {
+      type: Object,
+      default: () => {
+        return {
+          username: true,
+          password: true,
+          firstname: true,
+          lastname: true,
+          email: true,
+          phone: true,
+          address1: true
+        }
+      }
     }
   },
   data () {
@@ -172,6 +162,18 @@ export default {
       ],
       emailRules: [
         v => /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v) || `${this.$t('register.user.email')} ${this.$t('validation.fieldRequired')}`
+      ],
+      firstnameRules: [
+        v => !!v || `${this.$t('register.personal.firstname')} ${this.$t('validation.fieldRequired')}`,
+        v => !/[^A-Za-z0-9]/.test(v) || `${this.$t('register.personal.firstname')} ${this.$t('validation.specialCharsNotAllowed')}`
+      ],
+      lastnameRules: [
+        v => !!v || `${this.$t('register.personal.lastname')} ${this.$t('validation.fieldRequired')}`,
+        v => !/[^A-Za-z0-9]/.test(v) || `${this.$t('register.personal.lastname')} ${this.$t('validation.specialCharsNotAllowed')}`
+      ],
+      phoneRules: [
+        v => !!v || `${this.$t('register.personal.phone')} ${this.$t('validation.fieldRequired')}`,
+        v => !/[^0-9/\\-\\+]/.test(v) || `${this.$t('register.personal.phone')} ${this.$t('validation.specialCharsNotAllowed')}`
       ]
     }
   },

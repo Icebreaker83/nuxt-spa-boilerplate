@@ -3,7 +3,7 @@
     content: "*" !important;
 }
 .v-card__title {
-  font-size: 24px !important;
+  font-size: 22px !important;
 }
 .v-card__text, .v-card__title {
     word-break: normal !important;

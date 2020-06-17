@@ -2,12 +2,12 @@
   <v-row dense justify="center" align="center" style="height: 100%;">
     <v-col cols="12" sm="6" md="4" lg="3">
       <v-card class="pb-1" rounded>
-        <v-card-title class="justify-center">
+        <v-card-title class="justify-center primary">
           {{ $t('login.firstTime.title') }}
         </v-card-title>
-        <v-card-text>
+        <v-card-text class="pa-0">
           <v-form ref="form" lazy-validation @submit.prevent="initialLogin" @keyup.enter="initialLogin">
-            <v-row dense justify="center">
+            <v-row justify="center">
               <v-col cols="12" sm="10">
                 <v-text-field
                   ref="usernameInput"
@@ -18,15 +18,15 @@
                 />
               </v-col>
             </v-row>
-            <v-row dense justify="center">
+            <v-row justify="center">
               <v-col cols="12" sm="10">
                 <v-btn
-                  color="secondary"
+                  color="primary"
                   :class="{'disable-events': loading}"
                   :loading="loading"
                   dark
                   type="submit"
-                  class="text-none body-2"
+                  class="text-none body-2 mb-2"
                   block
                   rounded
                 >
@@ -42,14 +42,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
+import shared from '~/mixins/shared'
 
 export default {
   auth: 'guest',
+  mixins: [shared],
   data () {
     return {
       loading: false,
-      // formValid: true,
       user: {
         login: ''
       },
@@ -70,18 +70,8 @@ export default {
         return
       }
       this.loading = true
-      // replace resolveAfterXSeconds mock promise with axios request
-      // this.$axios.post(Vue.$apiConfig.initialUserActivation, this.user.login)
-      this.resolveAfterXSeconds(this.user.login).then((response) => {
-        this.loading = false
-        this.$router.push(Vue.$apiConfig.login)
-        this.$toast.success(this.$t('login.firstTime.success'))
-      }).catch((error) => {
-        // handle failure
-        console.log(error)
-        this.loading = false
-        this.$toast.error(this.$t('login.firstTime.error'))
-      })
+      this.loginInitial(this.user.login)
+      this.loading = false
     }
   }
 }

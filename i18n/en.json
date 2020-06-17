@@ -36,11 +36,19 @@
       "error": "Error while sending activation link to your email address"
     },
     "register": "Register",
-    "forgottenPassword": "Forgot Password?",
+    "forgottenPassword": {
+      "title": "Forgot Password",
+      "success": "Password reset link has been sent to your email address",
+      "error": "Error while sending password reset link to your email address"
+    },
     "welcomeMessage": "Welcome",
     "errors": {
       "400": "Username or Password are not correct. Please try again",
       "default": "Something went wrong. Please try again later"
+    },
+    "multi": {
+      "title1": "Treasury",
+      "title2": "Standard"
     }
   },
   "register": {

@@ -162,7 +162,7 @@ export default {
           },
           accent: colors.grey.darken3,
           secondary: {
-            base: colors.purple.lighten3
+            base: colors.orange.base
           },
           info: colors.teal.lighten1,
           warning: colors.amber.base,
@@ -177,7 +177,7 @@ export default {
           },
           accent: colors.grey.darken3,
           secondary: {
-            base: colors.purple.lighten3
+            base: colors.orange.base
           },
           info: colors.teal.lighten1,
           warning: colors.amber.base,

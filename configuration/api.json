@@ -1,4 +1,6 @@
 {
   "login" : "/login",
-  "initialUserActivation": "/administration/activate-registered-user"
+  "loginLdap": "login/login-ldap",
+  "initialUserActivation": "/administration/activate-registered-user",
+  "resetUserPassword": "administration/reset-password"
 }

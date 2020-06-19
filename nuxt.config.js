@@ -33,7 +33,9 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/css/main.css'
+    '~/css/main.css',
+    '~/sass/tabulator.scss',
+    '~/sass/main.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -41,8 +43,10 @@ export default {
   plugins: [
     { ssr: false, src: '~/plugins/setThemeFromStore' },
     { ssr: false, src: '~/plugins/vuelidate' },
+    { ssr: false, src: '~/plugins/tabulator' },
     { ssr: false, src: '~/plugins/timeoutUser' },
     { ssr: false, src: '~/plugins/api' },
+    { ssr: false, src: '~/plugins/breakpoint' },
     // mock plugin contains mock promises
     { ssr: false, src: '~/plugins/mock' }
   ],
@@ -168,7 +172,13 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
-          menu_items: colors.shades.white
+          menu_items: colors.shades.white,
+          tabulator_header_text: colors.teal.base,
+          tabulator_header_background: '#202124',
+          tabulator_filter_text: colors.teal.lighten2,
+          tabulator_paginator_text: '#4db6ac',
+          tabulator_paginator_text_hover: '#4db6ac',
+          tabulator_paginator_active_background: '#4db6ac'
         },
         light: {
           primary: {
@@ -183,7 +193,13 @@ export default {
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
-          menu_items: colors.shades.white
+          menu_items: colors.shades.white,
+          tabulator_header_text: colors.teal.base,
+          tabulator_header_background: '#ECEFF1',
+          tabulator_filter_text: colors.teal.lighten2,
+          tabulator_paginator_text: '#4db6ac',
+          tabulator_paginator_text_hover: '#4db6ac',
+          tabulator_paginator_active_background: '#4db6ac'
         }
       }
     }

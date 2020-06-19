@@ -2,7 +2,7 @@
   <v-row dense justify="center" align="center" style="height: 100%;">
     <v-col cols="12" sm="6" md="4" lg="3">
       <v-card rounded>
-        <v-card-title class="justify-center primary">
+        <v-card-title class="justify-center primary white--text">
           {{ $t('login.forgottenPassword.title') }}
         </v-card-title>
         <v-card-text class="pa-0">
@@ -20,7 +20,7 @@
                 </v-row>
                 <v-row dense>
                   <v-btn
-                    color="secondary"
+                    color="primary"
                     :class="{'disable-events': loading}"
                     :loading="loading"
                     dark

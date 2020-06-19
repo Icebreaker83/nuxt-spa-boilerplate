@@ -1,0 +1,33 @@
+
+.status-active-span {
+  display: block;
+  background-color: #4caf50;
+  color: #fff;
+  border-radius: 2px;
+  margin: auto 10%;
+  padding: 8px 0px;
+  font-size: 12px;
+  width: 100% auto;
+}
+
+.status-inactive-span {
+  display: block;
+  background-color: #757575;
+  color: #fff;
+  border-radius: 2px;
+  padding: 8px 0px;
+  margin: auto 10%;
+  font-size: 12px;
+  width: 100% auto;
+}
+
+.status-revoked-span {
+  display: block;
+  background-color: #ff5252;
+  color: #fff;
+  border-radius: 2px;
+  margin: auto 10%;
+  padding: 8px 0px;
+  font-size: 12px;
+  width: 100% auto;
+}

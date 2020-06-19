@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-const INACTIVE_USER_TIME_THRESHOLD = 0.5 * 60 * 1000
-const USER_ACTIVITY_THROTTLER_TIME = 0.25 * 60 * 1000
+const INACTIVE_USER_TIME_THRESHOLD = 10 * 60 * 1000
+const USER_ACTIVITY_THROTTLER_TIME = 5 * 60 * 1000
 let userActivityThrottlerTimeout = null
 let userActivityTimeout = null
 let _auth = null

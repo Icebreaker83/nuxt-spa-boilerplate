@@ -2,7 +2,7 @@
   <v-row dense justify="center" align="center" style="height: 100%;">
     <v-col cols="12" sm="6" md="4" lg="3">
       <v-card class="pb-1" rounded>
-        <v-card-title class="justify-center primary">
+        <v-card-title class="justify-center primary white--text">
           {{ $t('login.firstTime.title') }}
         </v-card-title>
         <v-card-text class="pa-0">

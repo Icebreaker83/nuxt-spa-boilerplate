@@ -1,0 +1,104 @@
+html { overflow-y: auto !important;}
+.disable-events {
+  pointer-events: none
+}
+
+.tabulator-col-content {
+  background-color: var(--v-tabulator_header_background-base) !important;
+  color: var(--v-tabulator_header_text-base) !important;
+  height: 100%;
+}
+.tabulator-row:hover {
+  background-color: var(--v-tabulator_header_background-base) !important;
+}
+.tabulator-col-content .tabulator-col-title {
+  display: flex;
+  justify-content: center;
+  white-space: normal !important;
+  text-overflow: unset !important;
+}
+
+.tabulator {
+  .v-text-field__prefix {
+    padding-right: 6px;
+  }
+  .v-text-field .v-input__append-inner {
+    padding-left: 0;
+    .v-input__icon {
+      width: 18px;
+      min-width: 18px;
+    }
+  }
+}
+.tabulator .v-icon {
+  font-size: 16px;
+}
+.tabulator-page:disabled {
+  color: #808080;
+}
+
+.tabulator .tabulator-footer .tabulator-page:enabled{
+  color: var(--v-tabulator_paginator_text-base);
+}
+
+.tabulator .tabulator-footer .tabulator-page.active {
+  color: var(--v-menu_text_color-base) !important;
+  border-color: var(--v-tabulator_paginator_text-base) !important;
+  background-color: var(--v-tabulator_paginator_text-base) !important;
+}
+select.tabulator-page-size {
+    // #4db6ac
+    font-size: 14px;
+    font-weight: normal;
+    color: #6c757d;
+    display: inline-block;
+    border: 1px solid #dee2e6;;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 5px 10px 0 5px;
+    -webkit-appearance: none;
+    background-position: right 15px top 22px;
+    background-size: 18px 18px;
+}
+select.tabulator-page-size:active {
+    border: 1px solid #000;
+}
+.tabulator label {
+  font-weight: normal;
+}
+.tabulator-col-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tabulator-xs-paginator {
+  .tabulator-paginator {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
+    justify-content: flex-start;
+  }
+  .tabulator-page {
+    border: 1px solid !important;
+  }
+  .tabulator-paginator label {
+    flex-basis: 65%;
+    order:1;
+  }
+  .tabulator-page-size{
+    order:1;
+  }
+  [data-page="first"], [data-page="last"]{
+    flex-basis: 50%;
+    order:4;
+  }
+  .tabulator-pages {
+    flex-basis: 100%;
+    order:2;
+    text-align: center;
+  }
+  [data-page="prev"], [data-page="next"]{
+    flex-basis: 50%;
+    order:3;
+  }
+}

@@ -17,21 +17,27 @@
     "@nuxtjs/axios": "^5.10.3",
     "@nuxtjs/toast": "^3.3.0",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.26.0",
     "nuxt": "^2.0.0",
     "nuxt-i18n": "^6.12.0",
     "nuxt-vuex-localstorage": "^1.2.6",
+    "tabulator-tables": "^4.6.3",
+    "v-money": "^0.8.1",
+    "vue-tabulator": "^1.2.2",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.0.0",
     "@nuxtjs/eslint-config": "^2.0.0",
     "@nuxtjs/eslint-module": "^1.0.0",
+    "@nuxtjs/vuetify": "^1.0.0",
+    "@vue/test-utils": "^1.0.0-beta.27",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.1.0",
     "eslint": "^6.1.0",
     "eslint-plugin-nuxt": ">=0.4.2",
-    "@vue/test-utils": "^1.0.0-beta.27",
-    "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
+    "node-sass": "^4.14.1",
+    "sass-loader": "^8.0.2",
     "vue-jest": "^4.0.0-0"
   }
 }

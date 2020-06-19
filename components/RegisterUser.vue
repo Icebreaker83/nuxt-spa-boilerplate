@@ -177,9 +177,6 @@ export default {
       ]
     }
   },
-  mounted () {
-    console.log(this.$v)
-  },
   methods: {
     register () {
     }

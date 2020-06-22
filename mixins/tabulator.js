@@ -32,14 +32,15 @@ export default {
         layoutColumnsOnNewData: true,
         paginationSizeSelector: [5, 15, 25],
         paginationSize: 5,
-        ajaxConfig: {
-          headers: {
-            'Content-type': 'application/json; charset=utf-8',
-            Authorization: this.$auth.getToken(this.$auth.strategy.name)
-          }
-        },
+        // ajaxConfig: {
+        //   headers: {
+        //     'Content-type': 'application/json; charset=utf-8',
+        //     Authorization: this.$auth.getToken(this.$auth.strategy.name)
+        //   }
+        // },
         ajaxResponse: this.ajaxResponse,
-        ajaxURLGenerator: this.formatUrl,
+        ajaxRequestFunc: this.ajaxRequestFunc,
+        // ajaxURLGenerator: this.formatUrl,
         paginationDataSent: {
           size: 'perPage',
           page: 'page'
@@ -60,6 +61,24 @@ export default {
     }
   },
   methods: {
+    // This option expects a function that returns a promise.
+    // The promise should pass through the expected Tabulator formatted data array or data object on success, and should pass back an error on failure.
+    ajaxRequestFunc (url, config, params) {
+      // this context not available in promise, so we use self trick to call formatUrl method
+      const self = this
+      return new Promise(function (resolve, reject) {
+        const axios = Vue.prototype.$nuxt.$options.$axios
+        axios.get(`${url}?page=${params.page}&perPage=${params.perPage}`).then((response) => {
+          // when using the ajaxRequestFunc option the ajaxURLGenerator will no longer be called, you will need to handle any URL manipulation in your function.
+          self.formatUrl(url, config, params)
+          // const data = response.data.payload
+          resolve(response.data)
+        }).catch((error) => {
+          reject(error)
+        })
+      })
+    },
+    // The ajaxRequesting callback is called just before an AJAX request is made, if you want to abort the request for any reason you can return a value of false from the function.
     ajaxRequesting (url, params) {
       this.pageLoader = true
       // if (!accessTokenValid()) {
@@ -77,7 +96,12 @@ export default {
       if (url === '') { return false }
       return true
     },
+    // Tabulator expects the response to an ajax request to be a JSON encoded string representing an array of data objects.
+    // If you need to pass other data back in your request as well, you can use the ajaxResponse callback to process the returned data before it is passed to the table.
+    // The return value of this callback should be an array of row data objects.
     ajaxResponse (url, params, response) {
+      // console.log(1)
+      console.log(response)
       this.pageLoader = false
       const retObj = {
         contentType: 'application/json; charset=utf-8',
@@ -184,7 +208,7 @@ export default {
         })
       }
       this.$router.replace({ path: this.$router.currentRoute.path + (this.$router.currentRoute.path.includes('?') ? '&' : '?') + queryString }).catch(err => {}) // eslint-disable-line
-      return url + queryString
+      // return url + queryString
     },
     vDateRange (cell, onRendered, success, cancel, editorParams) {
       const ComponentClass = Vue.extend(HeaderFilters)

@@ -47,6 +47,7 @@ export default {
     { ssr: false, src: '~/plugins/timeoutUser' },
     { ssr: false, src: '~/plugins/api' },
     { ssr: false, src: '~/plugins/breakpoint' },
+    { ssr: false, src: '~/plugins/axios' },
     // mock plugin contains mock promises
     { ssr: false, src: '~/plugins/mock' }
   ],

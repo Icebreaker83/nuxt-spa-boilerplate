@@ -42,7 +42,7 @@ export default {
   },
   methods: {
     onInput () {
-      const index = this.items.indexOf(this.model) + 1
+      const index = this.items.findIndex(el => el.value === this.model) + 1
       this.$emit('input', index.toString())
     }
   }

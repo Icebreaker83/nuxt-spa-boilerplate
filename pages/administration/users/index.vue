@@ -56,15 +56,14 @@ export default {
               return '<span class="status-revoked-span">' + this.$t('userStatuses.' + status) + '</span>'
             },
             headerFilter: this.vStatusSelect,
-            headerFilterParams: { items: [this.$t('userStatuses.1'), this.$t('userStatuses.2'), this.$t('userStatuses.3'), this.$t('userStatuses.4')] },
-            // headerFilterParams: {
-            //   items: [
-            //     { text: this.$t('userStatuses.1'), value: 1 },
-            //     { text: this.$t('userStatuses.2'), value: 2 },
-            //     { text: this.$t('userStatuses.3'), value: 3 },
-            //     { text: this.$t('userStatuses.4'), value: 4 }
-            //   ]
-            // },
+            headerFilterParams: {
+              items: [
+                { text: this.$t('userStatuses.1'), value: '1' },
+                { text: this.$t('userStatuses.2'), value: '2' },
+                { text: this.$t('userStatuses.3'), value: '3' },
+                { text: this.$t('userStatuses.4'), value: '4' }
+              ]
+            },
             headerFilterLiveFilter: false
           }
         ],

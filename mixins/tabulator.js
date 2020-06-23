@@ -97,8 +97,6 @@ export default {
     // If you need to pass other data back in your request as well, you can use the ajaxResponse callback to process the returned data before it is passed to the table.
     // The return value of this callback should be an array of row data objects.
     ajaxResponse (url, params, response) {
-      // console.log(1)
-      console.log(response)
       this.pageLoader = false
       const retObj = {
         contentType: 'application/json; charset=utf-8',
@@ -123,11 +121,9 @@ export default {
     },
     getInitialFilter () {
       const query = this.$router.currentRoute.query
-      console.log(`query = ${query}`)
       const filter = []
       // Was very late when I came up with this
       Object.keys(query).forEach(function (key) {
-        console.log(`key = ${key}`)
         if (key.startsWith('filter[')) {
           if (key.endsWith('-From]')) {
             const existingFilter = filter.filter(filter => filter.field === key.slice(7, -6))
@@ -145,7 +141,6 @@ export default {
             }
           } else {
             filter.push({ field: key.slice(7, -1), value: query[key] })
-            console.log(`filter = ${JSON.stringify(filter)}`)
           }
         }
       })

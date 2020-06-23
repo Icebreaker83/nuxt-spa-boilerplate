@@ -64,15 +64,12 @@ export default {
     // This option expects a function that returns a promise.
     // The promise should pass through the expected Tabulator formatted data array or data object on success, and should pass back an error on failure.
     ajaxRequestFunc (url, config, params) {
-      // this context not available in promise, so we use self trick to call formatUrl method
-      const self = this
+      // formatUrl is called first so that we incorporate filters and sorts into url of request
+      const fullUrl = this.formatUrl(url, config, params)
       return new Promise(function (resolve, reject) {
         const axios = Vue.prototype.$nuxt.$options.$axios
-        axios.get(`${url}?page=${params.page}&perPage=${params.perPage}`).then((response) => {
-          // when using the ajaxRequestFunc option the ajaxURLGenerator will no longer be called, you will need to handle any URL manipulation in your function.
-          self.formatUrl(url, config, params)
-          // const data = response.data.payload
-          resolve(response.data)
+        axios.get(fullUrl).then((response) => {
+          resolve(response)
         }).catch((error) => {
           reject(error)
         })
@@ -105,8 +102,8 @@ export default {
       this.pageLoader = false
       const retObj = {
         contentType: 'application/json; charset=utf-8',
-        data: response.payload,
-        last_page: this.getPageCount(response.additionalInformation)
+        data: response.data.payload,
+        last_page: this.getPageCount(response.data.additionalInformation)
       }
       if (this.switchTabulatorPage !== false) {
         this.$refs.tabulator.getInstance().modules.page.page = this.switchTabulatorPage
@@ -126,9 +123,11 @@ export default {
     },
     getInitialFilter () {
       const query = this.$router.currentRoute.query
+      console.log(`query = ${query}`)
       const filter = []
       // Was very late when I came up with this
       Object.keys(query).forEach(function (key) {
+        console.log(`key = ${key}`)
         if (key.startsWith('filter[')) {
           if (key.endsWith('-From]')) {
             const existingFilter = filter.filter(filter => filter.field === key.slice(7, -6))
@@ -146,6 +145,7 @@ export default {
             }
           } else {
             filter.push({ field: key.slice(7, -1), value: query[key] })
+            console.log(`filter = ${JSON.stringify(filter)}`)
           }
         }
       })
@@ -208,7 +208,7 @@ export default {
         })
       }
       this.$router.replace({ path: this.$router.currentRoute.path + (this.$router.currentRoute.path.includes('?') ? '&' : '?') + queryString }).catch(err => {}) // eslint-disable-line
-      // return url + queryString
+      return url + queryString
     },
     vDateRange (cell, onRendered, success, cancel, editorParams) {
       const ComponentClass = Vue.extend(HeaderFilters)

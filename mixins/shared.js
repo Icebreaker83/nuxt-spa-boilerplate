@@ -41,6 +41,8 @@ export default {
         this.$toast.error(this.$t('login.firstTime.error'))
       })
       this.$router.push('/login')
+    },
+    getAllRolesAndSelect (roleId) {
     }
   }
 }

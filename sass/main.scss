@@ -1,3 +1,13 @@
+.theme--dark.v-card>.v-card__text, .theme--light.v-card>.v-card__text {
+  color: var(--v-default_text_color-base) !important;
+}
+.details-label-caption {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 5px !important;
+  word-break: normal;
+  overflow-wrap: break-word;
+}
 
 .status-active-span {
   display: block;

@@ -3,7 +3,7 @@
     <v-content>
       <app-bar />
       <side-nav />
-      <v-container fluid class="ma-0" style="height: 100%;">
+      <v-container fluid class="ma-0 pa-0" style="height: 100%;">
         <nuxt />
       </v-container>
     </v-content>

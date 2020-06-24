@@ -5,5 +5,12 @@
   "resetUserPassword": "/administration/reset-password",
   "getPagedUsers": "/administration/paged-users",
   "getUserInformationById": "administration/user",
-  "getPagedApprovedUserAccounts": "/account/paged-user-approved-accounts"
+  "getAllUserRoles": "administration/registry/user-roles",
+  "getAllUserGroups": "administration/registry/user-groups/",
+  "updateUserInformation": "administration/user-update",
+  "updateUserPermissions": "administration/update-user-permissions",
+  "revokeUser": "administration/disable-token",
+  "activateUser": "administration/enable-token",
+  "getPagedApprovedUserAccounts": "/account/paged-user-approved-accounts",
+  "registerUserAccounts": "account/register-user-accounts"
 }

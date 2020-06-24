@@ -167,13 +167,18 @@ export default {
           },
           accent: colors.grey.darken3,
           secondary: {
-            base: colors.orange.base
+            base: colors.orange.base,
+            lighten1: colors.orange.lighten1,
+            lighten2: colors.orange.lighten2
           },
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
           menu_items: colors.shades.white,
+          default_text_color: '#FFFFFF',
+          save_btn_color: colors.teal.lighten1,
+          cancel_btn_color: colors.indigo.base,
           tabulator_header_text: colors.teal.base,
           tabulator_header_background: '#202124',
           tabulator_filter_text: colors.teal.lighten2,
@@ -188,13 +193,18 @@ export default {
           },
           accent: colors.grey.darken3,
           secondary: {
-            base: colors.orange.base
+            base: colors.orange.base,
+            lighten1: colors.orange.lighten1,
+            lighten2: colors.orange.lighten2
           },
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3,
           menu_items: colors.shades.white,
+          default_text_color: '#000000',
+          save_btn_color: colors.teal.lighten1,
+          cancel_btn_color: colors.indigo.base,
           tabulator_header_text: colors.teal.base,
           tabulator_header_background: '#ECEFF1',
           tabulator_filter_text: colors.teal.lighten2,

@@ -1,5 +1,306 @@
 <template>
-  <p>test</p>
+  <v-container fluid>
+    <!-- User info -->
+    <v-card flat class="mb-2">
+      <v-card-text v-if="!editUser.enabled">
+        <v-row dense>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.userLogin') }}
+            </p>
+            <p>
+              {{ user.login }}
+            </p>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.nameAndSurname') }}
+            </p>
+            <p v-if="user.name" class="details-label">
+              {{ user.name }}
+            </p>
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.email') }}
+            </p>
+            <p v-if="user.email" class="details-label">
+              {{ user.email }}
+            </p>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.userGroups') }}
+            </p>
+            <p v-if="user.groupName" class="details-label">
+              {{ user.groupName }}
+            </p>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <!-- Edit user info -->
+      <v-card-text v-else>
+        <v-form ref="userForm" v-model="userFormValid" lazy-validation>
+          <v-row dense>
+            <v-col cols="12" sm="6" md="4">
+              <!-- text color of v-text-field has to be set by css class
+            because at this point in time color could not be set with props.
+            customProperties option of theme creates css variables for all colors defined in theme
+            and color of input is set with it-->
+              <v-text-field
+                v-model="editUser.name"
+                class="details-label required default-text"
+                :label="$t('administration.users.details.nameAndSurname')"
+                :rules="nameRules"
+                color="secondary lighten-3"
+              />
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col cols="12" sm="6" md="4">
+              <v-text-field
+                v-model="editUser.email"
+                class="details-label required default-text"
+                :label="$t('administration.users.details.email')"
+                :rules="emailRules"
+                color="secondary lighten-3"
+              />
+            </v-col>
+          </v-row>
+          <v-row dense>
+            <v-col cols="12" sm="6" md="4">
+              <v-select
+                v-model="editUser.groupId"
+                class="ma-0 pt-2 required"
+                :items="allGroups"
+                item-text="name"
+                item-value="id"
+                :label="$t('administration.users.details.userGroups')"
+                color="secondary lighten-3"
+              />
+            </v-col>
+          </v-row>
+        </v-form>
+      </v-card-text>
+      <v-card-actions v-if="!editUser.enabled && user.status===UserStatus.ACTIVE" class="pt-0">
+        <v-btn class="text-none" color="secondary lighten-1" @click="enableEditUser">
+          {{ $t('form.edit') }}
+        </v-btn>
+      </v-card-actions>
+      <v-card-actions v-if="editUser.enabled && user.status===UserStatus.ACTIVE" class="pt-0">
+        <v-btn class="text-none" :loading="editUser.loading" color="save_btn_color" @click="validateUserForm">
+          {{ $t('form.save') }}
+        </v-btn>
+        <v-btn class="text-none" color="cancel_btn_color" @click="editUser.enabled = false">
+          {{ $t('form.cancel') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <!-- User revoked info -->
+    <v-card v-if="user.status===UserStatus.REVOKED" flat class="mb-2">
+      <v-card-text>
+        <v-row no-gutters>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.revokeLogin') }}
+            </p>
+            <p class="details-label">
+              {{ user.changedUserName }}
+            </p>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.revokeDate') }}
+            </p>
+            <p class="details-label">
+              {{ user.lastChangeDate }}
+            </p>
+          </v-col>
+          <v-col cols="12" sm="6" md="4">
+            <p class="details-label-caption">
+              {{ $t('administration.users.details.revokeComment') }}
+            </p>
+            <p class="details-label">
+              {{ user.changedComments }}
+            </p>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+    <!--  -->
+    <v-row>
+      <v-divider color="secondary.base" class="mb-2" />
+    </v-row>
+    <!-- User roles and claims -->
+    <v-card flat class="mb-2">
+      <v-card-title>
+        <p class="subheading-label">
+          {{ $t('administration.users.details.rolesAndClaims') }}
+        </p>
+      </v-card-title>
+      <v-card-text v-if="!editRole.enabled">
+        <v-row no-gutters>
+          <v-col cols="12" lg="5" class="mb-2">
+            <v-expansion-panels dark>
+              <v-expansion-panel class="mb-3">
+                <v-expansion-panel-header color="secondary">
+                  <span v-if="user.roleName" class="details-label-caption">{{ user.roleName }}</span>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content color="secondary">
+                  <v-expansion-panels>
+                    <v-expansion-panel v-for="claim in user.claims" :key="claim.id">
+                      <v-expansion-panel-header color="secondary lighten-1">
+                        <span class="details-label-caption">{{ claim.localized_name }}</span>
+                      </v-expansion-panel-header>
+                      <v-expansion-panel-content color="secondary lighten-2" class="pt-2">
+                        <span class="details-label">{{ claim.localized_description }}</span>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <!-- Edit user roles and claims -->
+      <v-card-text v-else>
+        <v-data-table
+          :headers="headers"
+          :items="allRoles"
+          :expanded.sync="expanded"
+          item-key="name"
+          show-expand
+          single-expand
+          hide-default-footer
+        >
+          <template v-slot:item.selected="{ item }">
+            <v-checkbox v-model="item.selected" @click.stop="selectRole(item)" />
+          </template>
+          <template v-slot:expanded-item="{ item }">
+            <td :colspan="headers.length">
+              <tr>
+                <th>{{ $t('administration.users.details.claims') }}</th>
+                <th>{{ $t('administration.users.details.claimDescription') }}</th>
+              </tr>
+              <tr v-for="claim in item.claims" :key="claim.id" class="details-label ma-2">
+                <td>{{ claim.localized_name }}</td>
+                <td>{{ claim.localized_description }}</td>
+              </tr>
+            </td>
+          </template>
+        </v-data-table>
+      </v-card-text>
+      <v-card-actions v-if="!editRole.enabled && user.status===UserStatus.ACTIVE">
+        <v-btn class="text-none" dark color="secondary lighten-1" @click="editRole.enabled = true">
+          {{ $t('form.edit') }}
+        </v-btn>
+      </v-card-actions>
+      <v-card-actions v-if="editRole.enabled && user.status===UserStatus.ACTIVE">
+        <v-btn class="text-none" dark color="save_btn_color" @click="editUserRole">
+          {{ $t('form.save') }}
+        </v-btn>
+        <v-btn class="text-none" dark color="cancel_btn_color" @click="editRole.enabled = false">
+          {{ $t('form.cancel') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <!--  -->
+    <v-row>
+      <v-divider color="secondary.base" class="mb-2" />
+    </v-row>
+    <!-- User accounts -->
+    <v-card flat class="mb-2">
+      <v-card-title>
+        <p class="subheading-label">
+          {{ $t('administration.users.details.userAccounts') }}
+        </p>
+      </v-card-title>
+      <VueTabulator id="userAccountsManagmentTable" ref="tabulator" v-model="data" :options="tabulatorOptions" :class="{ 'tabulator-xs-paginator': $vuetify.breakpoint.xsOnly }" />
+      <v-card-actions>
+        <v-btn
+          color="secondary lighten-1"
+          :class="{'disable-events': loading}"
+          :loading="loading"
+          class="text-none"
+          @click="submitRegisterAccounts"
+        >
+          {{ $t('account.addUserAccount') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+    <v-row>
+      <v-divider color="secondary.base" class="mb-2" />
+    </v-row>
+    <!--  -->
+    <!-- Revoke and Activate buttons -->
+    <v-row>
+      <v-spacer />
+      <v-btn
+        v-if="user.status === UserStatus.ACTIVE"
+        class="text-none mr-4"
+        color="error"
+        dark
+        @click="revokeUserPrompt.enabled = true"
+      >
+        {{ $t('form.revoke') }}
+      </v-btn>
+      <v-btn
+        v-else=""
+        class="text-none mr-4"
+        color="success"
+        dark
+        :loading="activateUser"
+        @click="ActivateUser()"
+      >
+        {{ $t('form.activate') }}
+      </v-btn>
+    </v-row>
+    <!--  Revoke user prompt -->
+    <v-dialog v-model="revokeUserPrompt.enabled" max-width="550px">
+      <v-card>
+        <v-card-title>
+          <p class="subheading-label">
+            {{ $t('administration.users.details.revokeUserPromptTitle') }}
+          </p>
+        </v-card-title>
+        <v-card-text>
+          <v-textarea
+            v-model="newComment"
+            filled
+            rows="5"
+            class="form-control"
+            :placeholder="$t('administration.users.details.revokePromptPlaceholder')"
+          />
+        </v-card-text>
+        <v-card-actions class="ml-4">
+          <v-btn
+            class="text-none"
+            color="save_btn_color"
+            :loading="revokeUserPrompt.loading"
+            :disabled="newComment.length == 0"
+            @click="RevokeUser"
+          >
+            {{ $t('form.save') }}
+            <template v-slot:loader>
+              <span class="custom-loader">
+                <v-icon dark>cached</v-icon>
+              </span>
+            </template>
+          </v-btn>
+          <v-btn
+            class="text-none"
+            color="cancel_btn_color"
+            @click="revokeUserPrompt.enabled = false"
+          >
+            {{ $t('form.cancel') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 <script>
 import Vue from 'vue'
@@ -8,6 +309,7 @@ import Vue from 'vue'
 // import { EventBus } from '@/router/bus'
 // import { chain, groupBy, map } from 'lodash'
 import tabulatorMixin from '@/mixins/tabulator'
+// import shared from '~/mixins/shared'
 // import { EventBus } from '@/router/bus'
 // import { hasAdminClaim } from '@/router/auth.js'
 
@@ -19,38 +321,31 @@ export default {
       userId: 0,
       user: {},
       editUser: {
+        enabled: false,
         name: '',
         email: '',
-        groupId: 0
+        groupId: 0,
+        loading: false
+      },
+      editRole: {
+        enabled: false,
+        loading: false
       },
       allRoles: [],
       allGroups: [],
       userFormValid: true,
-      changeUserInfoEnabled: false,
-      changeRoleEnabled: false,
-      editUserPrompt: {
-        enabled: false,
-        loading: false
-      },
-      editRolePrompt: {
-        enabled: false,
-        loading: false
-      },
       revokeUserPrompt: {
         enabled: false,
         loading: false
       },
-      activateUserPrompt: {
-        enabled: false,
-        loading: false
-      },
+      activateUser: false,
       newComment: '',
       search: '',
       headers: [
         { value: 'data-table-expand', align: 'left', sortable: false, class: 'role-header' },
         { value: 'selected', align: 'left', sortable: false, class: 'role-header' },
-        { value: 'name', text: this.$t('profile.roles'), align: 'left', sortable: false, class: 'role-header' },
-        { value: 'description', text: this.$t('profile.roleDescription'), align: 'left', sortable: false, class: 'role-header' }
+        { value: 'name', text: this.$t('administration.users.details.roles'), align: 'left', sortable: false, class: 'role-header' },
+        { value: 'description', text: this.$t('administration.users.details.roleDescription'), align: 'left', sortable: false, class: 'role-header' }
       ],
       currentStatus: 1,
       /* proveriti sta vraca sa API za disabled, posto za revoked vraca 4 a ne 3 */
@@ -79,7 +374,7 @@ export default {
         }
       ],
       nameRules: [
-        v => !!v || this.$t('validation.nameRequired')
+        v => !!v || this.$t('validation.nameAndSurnameRequired')
       ],
       emailRules: [
         v => !!v || this.$t('validation.emailRequired'),
@@ -94,13 +389,24 @@ export default {
         ajaxURL: `${this.$axios.defaults.baseURL}${Vue.$apiConfig.getPagedApprovedUserAccounts}/${this.$route.params.id}`,
         columns: [
           { title: 'Id', field: 'id', visible: false },
-          { title: this.$t('account.name'), align: 'left', field: 'name', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('account.bank'), align: 'center', field: 'bank', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('account.accountNumber'), align: 'center', field: 'accountNumber', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('account.accountControlNumber'), align: 'center', field: 'accountControlNumber', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          // {
+          //   formatter: 'rowSelection',
+          //   titleFormatter: 'rowSelection',
+          //   minWidth: 75,
+          //   width: 75,
+          //   align: 'center',
+          //   headerSort: false,
+          //   cellClick: function (e, cell) {
+          //     cell.getRow().toggleSelect()
+          //   }
+          // },
+          { title: this.$t('account.name'), hozAlign: 'left', field: 'name', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('account.bank'), hozAlign: 'center', field: 'bank', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('account.accountNumber'), hozAlign: 'center', field: 'accountNumber', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('account.accountControlNumber'), hozAlign: 'center', field: 'accountControlNumber', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
           {
             title: this.$t('account.status'),
-            align: 'center',
+            hozAlign: 'center',
             field: 'userAccountStatus',
             formatter: (cell, formatterParams, onRendered) => {
               const status = cell.getValue()
@@ -110,7 +416,11 @@ export default {
               // return '<span class="status-revoked-span">' + this.$t('account.statusCode.' + status) + '</span>'
             },
             headerFilter: this.vStatusSelect,
-            headerFilterParams: { items: [this.$t('account.statusCode.1')] }
+            headerFilterParams: {
+              items: [
+                { text: this.$t('account.statusCode.1'), value: '1' }
+              ]
+            }
           }
         ]
       }
@@ -118,62 +428,170 @@ export default {
   },
   created () {
     this.userId = this.$route.params.id
-    console.log(this.userId)
+    this.loading = true
+    const self = this
     // get user information by id
-    // this.$http.get(Vue.$apiConfig.getUserInformationById + '/' + this.userId).then(
-    //   (response) => {
-    //     this.user = response.data.payload
-    //     // this.user.isAdmin = hasAdminClaim
-    //     // get all roles and set selected for the role that user has
-    //     this.$http.get(Vue.$apiConfig.getAllUserRoles).then(
-    //       (response) => {
-    //         this.allRoles = response.data.payload
-    //         this.allRoles.forEach((role) => {
-    //           // role.localized_name = role.name.substring(5, role.name.length)
-    //           role.claims.forEach((claim) => {
-    //             claim.localized_name = this.$t('claims.' + claim.name)
-    //             claim.localized_description = this.$t('claims.' + claim.name + '_Description')
-    //           })
-    //           if (role.id === this.user.roleId) {
-    //             Vue.set(role, 'selected', true)
-    //             Vue.set(this.user, 'claims', role.claims)
-    //           } else {
-    //             Vue.set(role, 'selected', false)
-    //           }
-    //         })
-    //       }, (error) => {
-    //         this.logConsole(error)
-    //       })
-    //     // get all groups and set selected for the group that user has
-    //     this.$http.get(Vue.$apiConfig.getAllUserGroups).then(
-    //       (response) => {
-    //         this.allGroups = response.data.payload
-    //         this.allGroups.forEach((group) => {
-    //           if (group.id === this.user.groupId) {
-    //             Vue.set(group, 'selected', true)
-    //           } else {
-    //             Vue.set(group, 'selected', false)
-    //           }
-    //         })
-    //       }, (error) => {
-    //         this.logConsole(error)
-    //       })
-    //     this.load = false
-    //   },
-    //   (error) => {
-    //     this.logConsole(error)
-    //     // EventBus.$emit('alert', {
-    //     //   variant: 'error',
-    //     //   message: error.data.status.code
-    //     // })
-    //     this.load = false
-    //   }
-    // )
+    this.$axios.get(`${Vue.$apiConfig.getUserInformationById}/${this.userId}`).then((response) => {
+      this.user = response.data.payload
+      // get all roles and set selected for the role that user has
+      this.$axios.get(Vue.$apiConfig.getAllUserRoles).then((response) => {
+        self.allRoles = response.data.payload
+        self.allRoles.forEach((role) => {
+          // role.localized_name = role.name.substring(5, role.name.length)
+          role.claims.forEach((claim) => {
+            claim.localized_name = this.$t('claims.' + claim.name)
+            claim.localized_description = this.$t('claims.' + claim.name + '_Description')
+          })
+          if (role.id === this.user.roleId) {
+            Vue.set(role, 'selected', true)
+            Vue.set(this.user, 'claims', role.claims)
+          } else {
+            Vue.set(role, 'selected', false)
+          }
+        })
+      }).catch(() => {
+        this.$toast.error(this.$t('administration.users.details.getRolesError'))
+      })
+      // get all groups and set selected for the group that user has
+      this.$axios.get(Vue.$apiConfig.getAllUserGroups).then(
+        (response) => {
+          self.allGroups = response.data.payload
+          self.allGroups.forEach((group) => {
+            Vue.set(group, 'selected', group.id === this.user.groupId)
+          })
+        }).catch(() => {
+        this.$toast.error(this.$t('administration.users.details.getGroupsError'))
+      })
+    }).catch(() => {
+      this.$toast.error(this.$t('administration.users.details.getUserError'))
+    }).finally(() => {
+      self.loading = false
+    })
+  },
+  methods: {
+    selectRole (selectedRole) {
+      this.allRoles.forEach((role) => {
+        (selectedRole.id === role.id) ? role.selected = true : role.selected = false
+      })
+    },
+    enableEditUser () {
+      this.editUser.name = this.user.name
+      this.editUser.email = this.user.email
+      this.editUser.groupId = this.user.groupId
+      this.editUser.enabled = true
+    },
+    validateUserForm () {
+      if (this.$refs.userForm.validate()) {
+        this.editProfile()
+      }
+    },
+    editProfile () {
+      this.editUser.loading = true
+      const requestBody = {
+        id: this.user.id,
+        name: this.editUser.name,
+        email: this.editUser.email,
+        groupId: this.editUser.groupId
+      }
+      this.$axios.post(Vue.$apiConfig.updateUserInformation, requestBody).then(
+        (response) => {
+          this.user.name = response.data.payload.name
+          this.user.email = response.data.payload.email
+          this.user.groupId = response.data.payload.groupId
+          this.user.groupName = this.allGroups.filter(group => group.id === response.data.payload.groupId)[0].name
+          this.$toast.success(this.$t('administration.users.details.editUserSuccess'))
+        }).catch(() => {
+        this.$toast.error(this.$t('administration.users.details.editUserFail'))
+      }).finally(() => {
+        this.editUser.loading = false
+        this.editUser.enabled = false
+      })
+    },
+    editUserRole () {
+      this.editRole.loading = true
+      const selectedRole = this.allRoles.filter(role => role.selected === true)[0]
+      const requestBody = {
+        id: this.user.id,
+        roleName: selectedRole.name
+      }
+      this.$axios.post(Vue.$apiConfig.updateUserPermissions, requestBody).then(
+        (response) => {
+          this.user.roleId = selectedRole.id
+          this.user.roleName = selectedRole.name
+          this.user.claims = selectedRole.claims
+          this.$toast.success(this.$t('administration.users.details.editRoleSuccess'))
+        }).catch(() => {
+        this.$toast.error(this.$t('administration.users.details.editRoleFail'))
+      }).finally(() => {
+        this.editRole.loading = false
+        this.editRole.enabled = false
+      })
+    },
+    submitRegisterAccounts () {
+      const rows = this.$refs.tabulator.getInstance().getSelectedRows()
+      const userAccounts = { userId: parseInt(this.userId) }
+      if (rows !== undefined && rows !== null) {
+        const accounts = []
+        this.token = null
+        for (let i = 0; i < rows.length; i++) {
+          const rowData = rows[i].getData()
+          accounts.push({ id: rowData.id })
+        }
+        userAccounts.accounts = accounts
+        this.loading = true
+        this.$axios.post(Vue.$apiConfig.registerUserAccounts, userAccounts)
+          .then((response) => {
+            // this.submittedAccounts = response.data.payload
+            // this.validateAccountsDialog = true
+            this.$toast.success(this.$t('account.accountRegisterSuccess'))
+            // this.$refs.tabulator.getInstance().setFilter('userAccountStatus', '=', 1)
+          }).catch(() => {
+            this.$toast.error(this.$t('account.accountRegisterFail'))
+          }).finally(() => {
+            this.loading = false
+          })
+      }
+    },
+    RevokeUser () {
+      this.revokeUserPrompt.loading = true
+      const requestBody = [{
+        UserId: this.user.id,
+        ChangedComments: this.newComment
+      }]
+      this.$axios.post(Vue.$apiConfig.revokeUser, requestBody)
+        .then((response) => {
+          this.user.status = response.data.payload[0].status
+          this.user.changedComments = response.data.payload[0].changedComments
+          this.user.changedUserName = response.data.payload[0].changedUserName
+          this.$toast.success(this.$t('administration.users.details.revokeSuccess'))
+        }).catch(() => {
+          this.$toast.error(this.$t('administration.users.details.revokeFail'))
+        }).finally(() => {
+          this.revokeUserPrompt.loading = false
+          this.revokeUserPrompt.enabled = false
+        })
+    },
+    ActivateUser () {
+      this.activateUser = true
+      const requestBody = [{
+        UserId: this.user.id,
+        ChangedComments: 'ACTIVATE'
+      }]
+      this.$axios.post(Vue.$apiConfig.activateUser, requestBody)
+        .then((response) => {
+          this.user.status = response.data.payload[0].status
+          this.$toast.success(this.$t('administration.users.details.activateSuccess'))
+        }).catch(() => {
+          this.$toast.error(this.$t('administration.users.details.activateFail'))
+        }).finally(() => {
+          this.activateUser = false
+        })
+    }
   }
 }
 </script>
 
-<style>
+<style scoped>
   .v-card__text {
     font-size: 15px
   }
@@ -184,48 +602,9 @@ export default {
     font-size: 16px;
     font-weight: 600
   }
-  .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
 
-  /* .role-popout {
-    background-color: #E0F2F1 !important;
-  } */
-
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  .role-header {
-    background-color: var(--v-secondary-lighten5) !important;
+  .container >>> .role-header {
+    background-color: var(--v-secondary-base);
+    font-size: 16px;
   }
 </style>

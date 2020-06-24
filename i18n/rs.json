@@ -83,6 +83,36 @@
         "loginAd": "Ад кориснички налог",
         "email": "Е-пошта",
         "status": "Статус корисника"
+      },
+      "details": {
+        "userLogin": "Кориснички налог",
+        "nameAndSurname": "Име и презиме",
+        "email": "Е-пошта",
+        "userGroups": "Група корисника",
+        "roles": "Корисничке улоге",
+        "claims": "Корисничка овлашћења",
+        "rolesAndClaims": "Корисничке улоге и овлашћења",
+        "roleDescription": "Опис корисничке улоге",
+        "claimDescription": "Опис корисничког овлашћења",
+        "revokeLogin": "Променио",
+        "revokeDate": "Датум",
+        "revokeComment": "Коментар опозива",
+        "systemRolesAndClaims": "Системске привилегије",
+        "dataTablesRolesAndClaims": "Привилегије табела података",
+        "userAccounts": "Рачуни корисника",
+        "revokeUserPromptTitle": "Да ли сте сигурни да желите да опозовете корисника?",
+        "revokePromptPlaceholder": "Унесите коментар опозива",
+        "getRolesError": "Грешка приликом прибављања корисничких улога",
+        "getGroupsError": "Грешка приликом прибављања корисничких група",
+        "getUserError": "Грешка приликом прибављања података о кориснику",
+        "editUserSuccess": "Успешно сте променили информације корисника",
+        "editUserFail": "Грешка приликом измене информације корисника",
+        "editRoleSuccess": "Успешно сте променили улогу корисника",
+        "editRoleFail": "Грешка приликом измене улоге корисника",
+        "revokeSuccess": "Успешно сте опозвали корисника",
+        "revokeFail": "Грешка приликом опозива корисника",
+        "activateSuccess": "Успешно сте активирали корисника",
+        "activateFail": "Грешка приликом активације корисника"
       }
     }
   },
@@ -91,6 +121,31 @@
     "2": "Неактиван",
     "3": "Опозван",
     "4": "Деактивиран"
+  },
+  "roles": {
+    "Role_Administrator": "Администратор",
+    "Role_Reviewer": "Преглед свих шифарникa",
+    "Role_Operator_Description": "Оператер управе за трезор са овлашћењима креирања приступа систему новим правним лицима/органима",
+    "Role_Local_Administrator": "Локални администратор",
+    "Role_Local_Administrator_Description": "Администрација правних лица/органа",
+    "Role_Local_User": "Локални корисник",
+    "Role_Local_User_Description": "Локални корисник правног лица/органа",
+    "Role_Refresh_Token": "Освеживање токена"
+  },
+  "claims": {
+    "label": "Oвлашћења",
+    "name": "Назив",
+    "description": "Опис",
+    "Claim_Admin": "Администрација",
+    "Claim_Admin_Description": "Управљање свим функционалностима на систему",
+    "Claim_User_Create": "Креирање корисника",
+    "Claim_User_Create_Description": "Креирање глобалног корисника на систему",
+    "Claim_User_Review": "Преглед корисника",
+    "Claim_User_Review_Description": "Преглед корисника на систему",
+    "Claim_User_Review_All": "Преглед свих корисника",
+    "Claim_User_Review_Аll_Description": "Преглед свих корисника на систему",
+    "Claim_User_Revoke": "Опозив корисника",
+    "Claim_User_Revoke_Description": "Опозив корисника од стране оператора трезора"
   },
   "form": {
     "ok": "У реду",
@@ -121,6 +176,8 @@
   },
   "validation": {
     "fieldRequired": "поље је неопходно",
+    "nameAndSurnameRequired": "Неопходно је унети име и презиме",
+    "emailRequired": "Неопходно је унети електронску пошту",
     "specialCharsNotAllowed": "садржи недозвољене карактере",
     "usernameTooLong": "Кориснички налог може садржати највише 32 карактера",
     "usernameTooShort": "Кориснички налог мора садржати најмање 4 карактера"
@@ -152,5 +209,52 @@
       }
     },
     "emptyTable": "Нема информација"
+  },
+  "account": {
+    "register": "Захтев за управљање рачунима",
+    "statusOperatorCode": {
+      "1": "Плаћање",
+      "2": "Преглед",
+      "3": "Чека на одобрење",
+      "4": "Одбијен",
+      "5": "Захтев за укидање"
+    },
+    "statusCode": {
+      "0": "",
+      "1": "Плаћање",
+      "2": "Преглед",
+      "3": "Послат захтев",
+      "4": "Одбијен",
+      "5": "Захтев за укидање"
+    },
+    "name": "Назив",
+    "accountNumber": "Партија",
+    "accountControlNumber": "Контролни број",
+    "vaultNumber": "Шифра трезора",
+    "organizationalUnitNumber": "Седиште",
+    "status": "Статус захтева",
+    "budgetUserId": "КЈС",
+    "maximumOrderAmount": "Максимални износ налога",
+    "createdDate": "Датум креирања",
+    "approvedDate": "Датум одобрења",
+    "accountStatus": "Статус",
+    "bank": "Банка",
+    "comment": "Коментар",
+    "approveRequest": "Одобрите захтев за рачун",
+    "cancelRequest": "Одбијте захтев за рачун",
+    "cancelAccountPrompt": "Да ли сте сигурни да желите да одбијете захтев за рачун?",
+    "accountCancelSuccess": "Успешно одбијен захтев за рачун",
+    "approveAccountRequest": "Да ли сте сигурни да желите да одобрите захтев за рачун?",
+    "accountApproveSuccess": "Успешно одобрен захтев за рачун",
+    "accountDetails": "Детаљи рачуна",
+    "accountPaymentDisabledSuccess": "Успешно промењен статус рачуна",
+    "disablePayment": "Онемогућите плаћање са рачуна",
+    "disablePaymentPrompt": "Да ли сте сигурни да желите да онемогућите плаћање са рачуна?",
+    "accountRegisterAlreadyRequested": "Изабрали сте рачун за који је захтев већ послат",
+    "accountRegisterSuccess": "Успешно послат захтев за рачун",
+    "accountRegisterFail": "Грешка приликом слања захтева за рачун",
+    "addUserAccount": "Додајте рачуне кориснику",
+    "cancelRequests": "Одобрите укидање рачуна",
+    "lastChangeDate": "Датум измене"
   }
 }

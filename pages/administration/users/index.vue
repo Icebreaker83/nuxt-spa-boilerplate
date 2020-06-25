@@ -68,7 +68,6 @@ export default {
           }
         ],
         rowClick: (e, row) => {
-          console.log(this.$router)
           this.$router.push({ path: `/administration/users/${row.getData().id}`, params: { id: row.getData().id } })
         }
       }

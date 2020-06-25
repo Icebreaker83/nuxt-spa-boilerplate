@@ -46,8 +46,11 @@ export default {
     { ssr: false, src: '~/plugins/tabulator' },
     { ssr: false, src: '~/plugins/timeoutUser' },
     { ssr: false, src: '~/plugins/api' },
+    { ssr: false, src: '~/plugins/config' },
     { ssr: false, src: '~/plugins/breakpoint' },
     { ssr: false, src: '~/plugins/axios' },
+    { ssr: false, src: '~/mixins/exportToPdf' },
+    { ssr: false, src: '~/mixins/helper' },
     // mock plugin contains mock promises
     { ssr: false, src: '~/plugins/mock' }
   ],

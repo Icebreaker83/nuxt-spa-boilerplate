@@ -12,7 +12,9 @@
   "revokeUser": "administration/disable-token",
   "activateUser": "administration/enable-token",
   "addUser": "administration/create-user",
+  "getOrganizationById": "organization",
   "getPagedOrganizations": "organization/paged-organizations",
+  "approveOrganizationRegistration": "organization/approve-registration",
   "getPagedApprovedUserAccounts": "account/paged-user-approved-accounts",
   "registerUserAccounts": "account/register-user-accounts"
 }

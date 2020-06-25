@@ -52,7 +52,7 @@ export default {
           }
         ],
         rowClick: (e, row) => {
-          // this.$router.push({ name: 'organization-details', params: { organizationId: row.getData().id } })
+          this.$router.push({ path: `/administration/organizations/${row.getData().id}`, params: { id: row.getData().id } })
         }
       }
     }

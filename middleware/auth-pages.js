@@ -9,7 +9,8 @@ export default function ({ app, $auth, route, redirect }) {
     pageAuth = claims.includes('Claim_Admin') || claims.includes('Claim_User_Create')
   }
   if (!pageAuth) {
-    app.$toast.error('You do not have the rights to access this page.')
+    console.log(app.i18n)
+    app.$toast.error(`${app.i18n.messages[app.i18n.locale].route.unauthorized}`)
     redirect('/')
   }
 }

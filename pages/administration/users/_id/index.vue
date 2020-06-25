@@ -6,7 +6,7 @@
         <v-row dense>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.userLogin') }}
+              {{ $t('users.details.userLogin') }}
             </p>
             <p>
               {{ user.login }}
@@ -14,7 +14,7 @@
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.nameAndSurname') }}
+              {{ $t('users.details.nameAndSurname') }}
             </p>
             <p v-if="user.name" class="details-label">
               {{ user.name }}
@@ -24,7 +24,7 @@
         <v-row dense>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.email') }}
+              {{ $t('users.details.email') }}
             </p>
             <p v-if="user.email" class="details-label">
               {{ user.email }}
@@ -32,7 +32,7 @@
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.userGroups') }}
+              {{ $t('users.details.userGroups') }}
             </p>
             <p v-if="user.groupName" class="details-label">
               {{ user.groupName }}
@@ -52,7 +52,7 @@
               <v-text-field
                 v-model="editUser.name"
                 class="details-label required default-text"
-                :label="$t('administration.users.details.nameAndSurname')"
+                :label="$t('users.details.nameAndSurname')"
                 :rules="nameRules"
                 color="secondary lighten-3"
               />
@@ -63,7 +63,7 @@
               <v-text-field
                 v-model="editUser.email"
                 class="details-label required default-text"
-                :label="$t('administration.users.details.email')"
+                :label="$t('users.details.email')"
                 :rules="emailRules"
                 color="secondary lighten-3"
               />
@@ -77,7 +77,7 @@
                 :items="allGroups"
                 item-text="name"
                 item-value="id"
-                :label="$t('administration.users.details.userGroups')"
+                :label="$t('users.details.userGroups')"
                 color="secondary lighten-3"
               />
             </v-col>
@@ -104,7 +104,7 @@
         <v-row no-gutters>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.revokeLogin') }}
+              {{ $t('users.details.revokeLogin') }}
             </p>
             <p class="details-label">
               {{ user.changedUserName }}
@@ -112,7 +112,7 @@
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.revokeDate') }}
+              {{ $t('users.details.revokeDate') }}
             </p>
             <p class="details-label">
               {{ user.lastChangeDate }}
@@ -120,7 +120,7 @@
           </v-col>
           <v-col cols="12" sm="6" md="4">
             <p class="details-label-caption">
-              {{ $t('administration.users.details.revokeComment') }}
+              {{ $t('users.details.revokeComment') }}
             </p>
             <p class="details-label">
               {{ user.changedComments }}
@@ -137,7 +137,7 @@
     <v-card flat class="mb-2">
       <v-card-title>
         <p class="subheading-label">
-          {{ $t('administration.users.details.rolesAndClaims') }}
+          {{ $t('users.details.rolesAndClaims') }}
         </p>
       </v-card-title>
       <v-card-text v-if="!editRole.enabled">
@@ -182,8 +182,8 @@
           <template v-slot:expanded-item="{ item }">
             <td :colspan="headers.length">
               <tr>
-                <th>{{ $t('administration.users.details.claims') }}</th>
-                <th>{{ $t('administration.users.details.claimDescription') }}</th>
+                <th>{{ $t('users.details.claims') }}</th>
+                <th>{{ $t('users.details.claimDescription') }}</th>
               </tr>
               <tr v-for="claim in item.claims" :key="claim.id" class="details-label ma-2">
                 <td>{{ claim.localized_name }}</td>
@@ -215,7 +215,7 @@
     <v-card flat class="mb-2">
       <v-card-title>
         <p class="subheading-label">
-          {{ $t('administration.users.details.userAccounts') }}
+          {{ $t('users.details.userAccounts') }}
         </p>
       </v-card-title>
       <VueTabulator id="userAccountsManagmentTable" ref="tabulator" v-model="data" :options="tabulatorOptions" :class="{ 'tabulator-xs-paginator': $vuetify.breakpoint.xsOnly }" />
@@ -263,7 +263,7 @@
       <v-card>
         <v-card-title>
           <p class="subheading-label">
-            {{ $t('administration.users.details.revokeUserPromptTitle') }}
+            {{ $t('users.details.revokeUserPromptTitle') }}
           </p>
         </v-card-title>
         <v-card-text>
@@ -272,7 +272,7 @@
             filled
             rows="5"
             class="form-control"
-            :placeholder="$t('administration.users.details.revokePromptPlaceholder')"
+            :placeholder="$t('users.details.revokePromptPlaceholder')"
           />
         </v-card-text>
         <v-card-actions class="ml-4">
@@ -344,8 +344,8 @@ export default {
       headers: [
         { value: 'data-table-expand', align: 'left', sortable: false, class: 'role-header' },
         { value: 'selected', align: 'left', sortable: false, class: 'role-header' },
-        { value: 'name', text: this.$t('administration.users.details.roles'), align: 'left', sortable: false, class: 'role-header' },
-        { value: 'description', text: this.$t('administration.users.details.roleDescription'), align: 'left', sortable: false, class: 'role-header' }
+        { value: 'name', text: this.$t('users.details.roles'), align: 'left', sortable: false, class: 'role-header' },
+        { value: 'description', text: this.$t('users.details.roleDescription'), align: 'left', sortable: false, class: 'role-header' }
       ],
       currentStatus: 1,
       /* proveriti sta vraca sa API za disabled, posto za revoked vraca 4 a ne 3 */
@@ -386,7 +386,7 @@ export default {
       loader: false,
       loading: false,
       tabulatorOptions: {
-        ajaxURL: `${this.$axios.defaults.baseURL}${Vue.$apiConfig.getPagedApprovedUserAccounts}/${this.$route.params.id}`,
+        ajaxURL: `${Vue.$apiConfig.getPagedApprovedUserAccounts}/${this.$route.params.id}`,
         columns: [
           { title: 'Id', field: 'id', visible: false },
           // {

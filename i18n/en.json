@@ -1,4 +1,7 @@
 {
+  "route": {
+    "unauthorized": "You do not have the rights to access this page"
+  },
   "app-bar": {
     "title": "Add title here",
     "login": "Login",

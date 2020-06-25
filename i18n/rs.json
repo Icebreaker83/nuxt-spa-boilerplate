@@ -1,4 +1,7 @@
 {
+  "route": {
+    "unauthorized": "Немате права да приступите овој страници"
+  },
   "app-bar": {
     "title": "Наслов додати овде",
     "login": "Пријава",
@@ -18,12 +21,9 @@
     },
     "administration": {
       "title": "Администрација",
-      "users": {
-        "title": "Корисници"
-      },
-      "roles": {
-        "title": "Улоге"
-      }
+      "users": "Корисници",
+      "organizations": "Организације",
+      "roles": "Улоге"
     }
   },
   "login": {
@@ -65,45 +65,72 @@
       "address2": "Адреса - линија 2"
     }
   },
-  "administration": {
-    "users": {
-      "addNewUser": "Нови Корисник",
-      "tabulator": {
-        "name": "Име корисника",
-        "login": "Кориснички налог",
-        "loginAd": "Ад кориснички налог",
-        "email": "Е-пошта",
-        "status": "Статус корисника"
-      },
-      "details": {
-        "userLogin": "Кориснички налог",
-        "nameAndSurname": "Име и презиме",
-        "email": "Е-пошта",
-        "group": "Корисничкa група",
-        "userGroups": "Група корисника",
-        "role": "Корисничкa улогa",
-        "roles": "Корисничке улоге",
-        "claims": "Корисничка овлашћења",
-        "rolesAndClaims": "Корисничке улоге и овлашћења",
-        "roleDescription": "Опис корисничке улоге",
-        "claimDescription": "Опис корисничког овлашћења",
-        "revokeLogin": "Променио",
-        "revokeDate": "Датум",
-        "revokeComment": "Коментар опозива",
-        "systemRolesAndClaims": "Системске привилегије",
-        "dataTablesRolesAndClaims": "Привилегије табела података",
-        "userAccounts": "Рачуни корисника",
-        "revokeUserPromptTitle": "Да ли сте сигурни да желите да опозовете корисника?",
-        "revokePromptPlaceholder": "Унесите коментар опозива"
-      },
-      "register": {
-        "title": "Креирај новог корисника",
-        "userLogin": "Кориснички налог",
-        "nameAndSurname": "Име и презиме",
-        "email": "Е-пошта",
-        "group": "Корисничкa група",
-        "role": "Корисничкa улогa"
-      }
+  "users": {
+    "addNewUser": "Нови Корисник",
+    "tabulator": {
+      "name": "Име корисника",
+      "login": "Кориснички налог",
+      "loginAd": "Ад кориснички налог",
+      "email": "Е-пошта",
+      "status": "Статус корисника"
+    },
+    "details": {
+      "userLogin": "Кориснички налог",
+      "nameAndSurname": "Име и презиме",
+      "email": "Е-пошта",
+      "group": "Корисничкa група",
+      "userGroups": "Група корисника",
+      "role": "Корисничкa улогa",
+      "roles": "Корисничке улоге",
+      "claims": "Корисничка овлашћења",
+      "rolesAndClaims": "Корисничке улоге и овлашћења",
+      "roleDescription": "Опис корисничке улоге",
+      "claimDescription": "Опис корисничког овлашћења",
+      "revokeLogin": "Променио",
+      "revokeDate": "Датум",
+      "revokeComment": "Коментар опозива",
+      "systemRolesAndClaims": "Системске привилегије",
+      "dataTablesRolesAndClaims": "Привилегије табела података",
+      "userAccounts": "Рачуни корисника",
+      "revokeUserPromptTitle": "Да ли сте сигурни да желите да опозовете корисника?",
+      "revokePromptPlaceholder": "Унесите коментар опозива"
+    },
+    "register": {
+      "title": "Креирај новог корисника",
+      "userLogin": "Кориснички налог",
+      "nameAndSurname": "Име и презиме",
+      "email": "Е-пошта",
+      "group": "Корисничкa група",
+      "role": "Корисничкa улогa"
+    }
+  },
+  "organization": {
+    "id": "Број захтева",
+    "budgetUserId": "ЈБКЈС",
+    "companyNumber": "Матични број",
+    "companyNumberShort": "МБ",
+    "taxIdNumber": "ПИБ",
+    "name": "Назив правног лица/органа",
+    "address": "Адреса седишта",
+    "treasuryBranch": "Број организационе јединице",
+    "status": "Статус организације",
+    "statuses": {
+      "1": "У току",
+      "2": "Одобрена",
+      "3": "Отказана"
+    },
+    "details": {
+      "legalEntityInfo": "Подаци о правном лицу/органу",
+      "canceledUserName": "Регистрацију отказао",
+      "canceledDate": "Датум отказивања",
+      "cancelRegistrationPrompt": "Да ли сте сигурни да желите да откажете регистрацију?",
+      "activateRegistrationPrompt": "Да ли сте сигурни да желите да активирате налог?",
+      "createdDate": "Датум регистрације",
+      "approvedDate": "Датум активације",
+      "activationHeading": "Активација администраторског налогa",
+      "approveRegistration": "Активирај налог",
+      "approveRegistrationMsg": "Организација успешно активирана",
+      "cancelRegistration": "Откажи налог"
     }
   },
   "userStatuses": {

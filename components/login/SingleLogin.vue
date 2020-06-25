@@ -50,7 +50,7 @@
               class="text-none body-2"
               :to="{name: 'login-initial'}"
             >
-              {{ $t('login.firstTime.title') }}
+              {{ $t('login.firstTime') }}
             </v-btn>
           </v-row>
           <v-row dense justify="space-between">

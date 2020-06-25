@@ -1,12 +1,12 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row dense class="mb-3">
       <v-col cols="6" md="2" lg="1">
         <!-- <v-btn :to="{name: 'registerUser'}" type="button" class="text-none" color="secondary"> -->
         <v-btn type="button" to="/administration/users/register" class="text-none" color="primary">
           <v-icon dark left>
             mdi-plus-box
-          </v-icon>{{ $t('administration.users.addNewUser') }}
+          </v-icon>{{ $t('users.addNewUser') }}
         </v-btn>
       </v-col>
     </v-row>
@@ -33,16 +33,16 @@ export default {
       loader: false,
       loading: false,
       tabulatorOptions: {
-        ajaxURL: `${this.$axios.defaults.baseURL}${Vue.$apiConfig.getPagedUsers}`,
+        ajaxURL: Vue.$apiConfig.getPagedUsers,
         columnMinWidth: 220,
         columns: [
           { title: 'id', field: 'id', visible: false },
-          { title: this.$t('administration.users.tabulator.name'), hozAlign: 'center', field: 'name', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('administration.users.tabulator.login'), hozAlign: 'center', field: 'login', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('administration.users.tabulator.loginAd'), field: 'loginAd', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
-          { title: this.$t('administration.users.tabulator.email'), hozAlign: 'center', field: 'email', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('users.tabulator.name'), hozAlign: 'center', field: 'name', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('users.tabulator.login'), hozAlign: 'center', field: 'login', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('users.tabulator.loginAd'), field: 'loginAd', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
+          { title: this.$t('users.tabulator.email'), hozAlign: 'center', field: 'email', headerFilter: this.vTextFieldFilter, headerFilterLiveFilter: false },
           {
-            title: this.$t('administration.users.tabulator.status'),
+            title: this.$t('users.tabulator.status'),
             hozAlign: 'center',
             field: 'status',
             formatter: (cell, formatterParams, onRendered) => {

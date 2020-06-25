@@ -54,11 +54,6 @@ import sideNavMixin from '~/mixins/side-nav'
 
 export default {
   mixins: [sideNavMixin],
-  data () {
-    return {
-      claims: []
-    }
-  },
   computed: {
     ...mapGetters({
       collapsed: 'sidebar/collapsed'
@@ -88,28 +83,37 @@ export default {
           group: true,
           name: 'administration',
           active: false,
-          subItems: [...this.usersItem, ...this.rolesItem]
+          subItems: [...this.organizationsItem, ...this.usersItem, ...this.rolesItem]
         }
       ]
       return this.canViewAdministration() ? menuArray : []
     },
+    organizationsItem () {
+      const menuArray = [
+        {
+          title: this.$t('side-nav.administration.organizations'),
+          to: '/administration/organizations'
+        }
+      ]
+      return this.canViewOrganizations() ? menuArray : []
+    },
     usersItem () {
       const menuArray = [
         {
-          title: this.$t('side-nav.administration.users.title'),
+          title: this.$t('side-nav.administration.users'),
           to: '/administration/users'
         }
       ]
-      return this.canViewAdminUsers ? menuArray : []
+      return this.canViewUsers() ? menuArray : []
     },
     rolesItem () {
       const menuArray = [
         {
-          title: this.$t('side-nav.administration.roles.title'),
+          title: this.$t('side-nav.administration.roles'),
           to: '/administration/roles'
         }
       ]
-      return this.canViewAdminRoles ? menuArray : []
+      return this.canViewRoles() ? menuArray : []
     }
   },
   watch: {

@@ -3,7 +3,7 @@
     <v-form ref="form" v-model="formValid" lazy-validation>
       <v-card>
         <v-card-title>
-          {{ $t('administration.users.register.title') }}
+          {{ $t('users.register.title') }}
         </v-card-title>
         <v-card-text>
           <v-row no-gutters>
@@ -12,23 +12,23 @@
                 v-model="user.login"
                 class="ma-0 pt-2 required default-text"
                 :rules="usernameRules"
-                :label="$t('administration.users.register.userLogin')"
+                :label="$t('users.register.userLogin')"
                 color="secondary lighten-3"
               />
-              <!-- <v-text-field class="ma-0 pt-2" v-model="user.LoginAd" :rules="adUserRules" :label="$t('administration.userLoginAd')"
+              <!-- <v-text-field class="ma-0 pt-2" v-model="user.LoginAd" :rules="adUserRules" :label="$t('userLoginAd')"
               color="secondary lighten-3" /> -->
               <v-text-field
                 v-model="user.name"
                 class="ma-0 pt-2 required default-text"
                 :rules="nameRules"
-                :label="$t('administration.users.register.nameAndSurname')"
+                :label="$t('users.register.nameAndSurname')"
                 color="secondary lighten-3"
               />
               <v-text-field
                 v-model="user.email"
                 class="ma-0 pt-2 required default-text"
                 :rules="emailRules"
-                :label="$t('administration.users.register.email')"
+                :label="$t('users.register.email')"
                 color="secondary lighten-3"
               />
               <v-select
@@ -36,7 +36,7 @@
                 class="ma-0 pt-2 required"
                 :items="roles"
                 :rules="roleRules"
-                :label="$t('administration.users.register.role')"
+                :label="$t('users.register.role')"
                 color="secondary lighten-3"
               />
               <v-select
@@ -44,7 +44,7 @@
                 class="ma-0 pt-2 required default-text"
                 :items="groups"
                 :rules="groupRules"
-                :label="$t('administration.users.register.group')"
+                :label="$t('users.register.group')"
                 color="secondary lighten-3"
               />
             </v-col>
@@ -81,23 +81,23 @@ export default {
       formValid: true,
       loading: false,
       usernameRules: [
-        v => !!v || `${this.$t('administration.users.register.userLogin')} ${this.$t('validation.fieldRequired')}`,
+        v => !!v || `${this.$t('users.register.userLogin')} ${this.$t('validation.fieldRequired')}`,
         v => !/[^A-Za-z0-9_.]/.test(v) || this.$t('validation.usernameSpecChar'),
         v => (v && v.length >= 4) || this.$t('validation.usernameTooShort'),
         v => (v && v.length <= 32) || this.$t('validation.usernameTooLong')
       ],
       nameRules: [
-        v => !!v || `${this.$t('administration.users.register.nameAndSurname')} ${this.$t('validation.fieldRequired')}`
+        v => !!v || `${this.$t('users.register.nameAndSurname')} ${this.$t('validation.fieldRequired')}`
       ],
       emailRules: [
-        v => !!v || `${this.$t('administration.users.register.email')} ${this.$t('validation.fieldRequired')}`,
-        v => /.+@.+\..+/.test(v) || `${this.$t('administration.users.register.email')} ${this.$t('validation.fieldRequired')}`
+        v => !!v || `${this.$t('users.register.email')} ${this.$t('validation.fieldRequired')}`,
+        v => /.+@.+\..+/.test(v) || `${this.$t('users.register.email')} ${this.$t('validation.fieldRequired')}`
       ],
       roleRules: [
-        v => !!v || `${this.$t('administration.users.register.role')} ${this.$t('validation.fieldRequired')}`
+        v => !!v || `${this.$t('users.register.role')} ${this.$t('validation.fieldRequired')}`
       ],
       groupRules: [
-        v => !!v || `${this.$t('administration.users.register.group')} ${this.$t('validation.fieldRequired')}`
+        v => !!v || `${this.$t('users.register.group')} ${this.$t('validation.fieldRequired')}`
       ]
     }
   },

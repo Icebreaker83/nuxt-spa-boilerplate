@@ -3,7 +3,7 @@
     <v-col cols="12" sm="6" md="4" lg="3">
       <v-card class="pb-1" rounded>
         <v-card-title class="justify-center primary white--text">
-          {{ $t('login.firstTime.title') }}
+          {{ $t('login.firstTime') }}
         </v-card-title>
         <v-card-text class="pa-0">
           <v-form ref="form" lazy-validation @submit.prevent="initialLogin" @keyup.enter="initialLogin">

@@ -28,21 +28,19 @@ export default {
     },
     loginInitial (login) {
       this.$axios.post(Vue.$apiConfig.initialUserActivation, login).then((response) => {
-        this.$toast.success(this.$t('login.firstTime.success'))
+        this.$toast.success(this.$t('restMessages.success.firstTime'))
       }).catch(() => {
-        this.$toast.error(this.$t('login.firstTime.error'))
+        this.$toast.error(this.$t('restMessages.error.firstTime'))
       })
       this.$router.push('/login')
     },
     resetPassword (login) {
       this.$axios.post(Vue.$apiConfig.resetUserPassword, login).then((response) => {
-        this.$toast.success(this.$t('login.firstTime.success'))
+        this.$toast.success(this.$t('restMessages.success.forgotenPassword'))
       }).catch(() => {
-        this.$toast.error(this.$t('login.firstTime.error'))
+        this.$toast.error(this.$t('restMessages.error.forgotenPassword'))
       })
       this.$router.push('/login')
-    },
-    getAllRolesAndSelect (roleId) {
     }
   }
 }

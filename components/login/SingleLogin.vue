@@ -69,7 +69,7 @@
               color="secondary"
               class="text-none"
             >
-              {{ $t('login.forgottenPassword.title') }}
+              {{ $t('login.forgottenPassword') }}
             </v-btn>
           </v-row>
         </v-col>

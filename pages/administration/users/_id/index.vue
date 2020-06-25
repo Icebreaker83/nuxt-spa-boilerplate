@@ -450,7 +450,7 @@ export default {
           }
         })
       }).catch(() => {
-        this.$toast.error(this.$t('administration.users.details.getRolesError'))
+        this.$toast.error(this.$t('restMessages.error.getRoles'))
       })
       // get all groups and set selected for the group that user has
       this.$axios.get(Vue.$apiConfig.getAllUserGroups).then(
@@ -460,10 +460,10 @@ export default {
             Vue.set(group, 'selected', group.id === this.user.groupId)
           })
         }).catch(() => {
-        this.$toast.error(this.$t('administration.users.details.getGroupsError'))
+        this.$toast.error(this.$t('restMessages.error.getGroups'))
       })
     }).catch(() => {
-      this.$toast.error(this.$t('administration.users.details.getUserError'))
+      this.$toast.error(this.$t('restMessages.error.getUser'))
     }).finally(() => {
       self.loading = false
     })
@@ -499,9 +499,9 @@ export default {
           this.user.email = response.data.payload.email
           this.user.groupId = response.data.payload.groupId
           this.user.groupName = this.allGroups.filter(group => group.id === response.data.payload.groupId)[0].name
-          this.$toast.success(this.$t('administration.users.details.editUserSuccess'))
+          this.$toast.success(this.$t('restMessages.success.editUser'))
         }).catch(() => {
-        this.$toast.error(this.$t('administration.users.details.editUserFail'))
+        this.$toast.error(this.$t('restMessages.error.editUser'))
       }).finally(() => {
         this.editUser.loading = false
         this.editUser.enabled = false
@@ -519,9 +519,9 @@ export default {
           this.user.roleId = selectedRole.id
           this.user.roleName = selectedRole.name
           this.user.claims = selectedRole.claims
-          this.$toast.success(this.$t('administration.users.details.editRoleSuccess'))
+          this.$toast.success(this.$t('restMessages.success.changeUsersRole'))
         }).catch(() => {
-        this.$toast.error(this.$t('administration.users.details.editRoleFail'))
+        this.$toast.error(this.$t('restMessages.error.changeUsersRole'))
       }).finally(() => {
         this.editRole.loading = false
         this.editRole.enabled = false
@@ -543,10 +543,10 @@ export default {
           .then((response) => {
             // this.submittedAccounts = response.data.payload
             // this.validateAccountsDialog = true
-            this.$toast.success(this.$t('account.accountRegisterSuccess'))
+            this.$toast.success(this.$t('restMessages.success.accountRegister'))
             // this.$refs.tabulator.getInstance().setFilter('userAccountStatus', '=', 1)
           }).catch(() => {
-            this.$toast.error(this.$t('account.accountRegisterFail'))
+            this.$toast.error(this.$t('restMessages.error.accountRegister'))
           }).finally(() => {
             this.loading = false
           })
@@ -563,9 +563,9 @@ export default {
           this.user.status = response.data.payload[0].status
           this.user.changedComments = response.data.payload[0].changedComments
           this.user.changedUserName = response.data.payload[0].changedUserName
-          this.$toast.success(this.$t('administration.users.details.revokeSuccess'))
+          this.$toast.success(this.$t('restMessages.success.revokeUser'))
         }).catch(() => {
-          this.$toast.error(this.$t('administration.users.details.revokeFail'))
+          this.$toast.error(this.$t('restMessages.error.revokeUser'))
         }).finally(() => {
           this.revokeUserPrompt.loading = false
           this.revokeUserPrompt.enabled = false
@@ -580,9 +580,9 @@ export default {
       this.$axios.post(Vue.$apiConfig.activateUser, requestBody)
         .then((response) => {
           this.user.status = response.data.payload[0].status
-          this.$toast.success(this.$t('administration.users.details.activateSuccess'))
+          this.$toast.success(this.$t('restMessages.success.activateUser'))
         }).catch(() => {
-          this.$toast.error(this.$t('administration.users.details.activateFail'))
+          this.$toast.error(this.$t('restMessages.error.activateUser'))
         }).finally(() => {
           this.activateUser = false
         })

@@ -3,7 +3,7 @@
     <v-row dense class="mb-3">
       <v-col cols="6" md="2" lg="1">
         <!-- <v-btn :to="{name: 'registerUser'}" type="button" class="text-none" color="secondary"> -->
-        <v-btn type="button" class="text-none" color="primary">
+        <v-btn type="button" to="/administration/users/register" class="text-none" color="primary">
           <v-icon dark left>
             mdi-plus-box
           </v-icon>{{ $t('administration.users.addNewUser') }}

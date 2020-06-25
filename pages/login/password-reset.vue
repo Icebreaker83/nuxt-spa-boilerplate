@@ -3,7 +3,7 @@
     <v-col cols="12" sm="6" md="4" lg="3">
       <v-card rounded>
         <v-card-title class="justify-center primary white--text">
-          {{ $t('login.forgottenPassword.title') }}
+          {{ $t('login.forgottenPassword') }}
         </v-card-title>
         <v-card-text class="pa-0">
           <v-row justify="center" class="ma-0 pa-0">

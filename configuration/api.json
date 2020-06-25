@@ -11,6 +11,7 @@
   "updateUserPermissions": "administration/update-user-permissions",
   "revokeUser": "administration/disable-token",
   "activateUser": "administration/enable-token",
+  "addUser": "administration/create-user",
   "getPagedApprovedUserAccounts": "/account/paged-user-approved-accounts",
   "registerUserAccounts": "account/register-user-accounts"
 }
